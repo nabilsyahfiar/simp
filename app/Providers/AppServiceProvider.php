@@ -22,7 +22,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $forceHttps = app()->isProduction() || filter_var(env('FORCE_HTTPS', false), FILTER_VALIDATE_BOOL);
+        $forceHttps = (bool) config('simpro.force_https', false);
 
         if ($forceHttps) {
             URL::forceScheme('https');

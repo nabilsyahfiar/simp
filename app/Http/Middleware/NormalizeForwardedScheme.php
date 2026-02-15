@@ -10,7 +10,7 @@ class NormalizeForwardedScheme
 {
     public function handle(Request $request, Closure $next): Response
     {
-        if (! filter_var(env('TRUST_PROXIES', false), FILTER_VALIDATE_BOOL)) {
+        if (! (bool) config('simpro.trust_proxies', false)) {
             return $next($request);
         }
 
@@ -31,4 +31,3 @@ class NormalizeForwardedScheme
         return $next($request);
     }
 }
-

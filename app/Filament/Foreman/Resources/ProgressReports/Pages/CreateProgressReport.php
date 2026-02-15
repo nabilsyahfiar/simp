@@ -6,6 +6,7 @@ use App\Filament\Foreman\Resources\ProgressReports\ProgressReportResource;
 use App\Models\HouseUnit;
 use App\Models\ProgressReport;
 use App\Models\ReportPhoto;
+use App\Support\ImageCompressor;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
@@ -77,8 +78,13 @@ class CreateProgressReport extends CreateRecord
     private function syncPhotos(ProgressReport $report, array $paths): void
     {
         $paths = array_values(array_filter($paths));
+        $maxDimension = (int) config('simpro.image.max_dimension', 1920);
+        $jpegQuality = (int) config('simpro.image.jpeg_quality', 82);
+        $pngCompression = (int) config('simpro.image.png_compression', 7);
 
         foreach ($paths as $path) {
+            ImageCompressor::compressPublicImage($path, $maxDimension, $jpegQuality, $pngCompression);
+
             ReportPhoto::create([
                 'report_id' => $report->id,
                 'file_path' => $path,

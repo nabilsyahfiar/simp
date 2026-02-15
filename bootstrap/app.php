@@ -13,6 +13,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->prepend(\App\Http\Middleware\NormalizeForwardedScheme::class);
 
+        // bootstrap/app.php runs before the config repository is fully bootstrapped.
         $shouldTrustProxies = filter_var(env('TRUST_PROXIES', false), FILTER_VALIDATE_BOOL);
 
         if ($shouldTrustProxies) {
