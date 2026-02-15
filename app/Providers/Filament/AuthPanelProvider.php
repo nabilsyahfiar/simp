@@ -26,7 +26,6 @@ class AuthPanelProvider extends PanelProvider
             ->id('auth')
             ->path('')
             ->login()
-            ->passwordReset()
             ->colors([
                 'primary' => Color::Amber,
             ])
