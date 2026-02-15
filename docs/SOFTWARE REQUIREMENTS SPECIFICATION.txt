@@ -1,0 +1,244 @@
+SOFTWARE REQUIREMENTS SPECIFICATION (SRS)
+
+Web-Based Housing Construction Progress Monitoring System
+
+1. Purpose and Scope
+1.1 Purpose
+
+This document defines the software requirements for a web-based housing construction progress monitoring system. It serves as a reference for engineering, quality assurance, and stakeholders during system development, testing, and acceptance.
+
+1.2 Scope
+
+The system provides:
+
+Role-based authentication and authorization (Admin, Foreman, Construction Staff, Management).
+
+Master data management for projects, housing units, users, and assignments.
+
+Field progress reporting by foremen using photos, descriptions, and percentage completion.
+
+Verification and official progress status updates by construction staff.
+
+Monitoring dashboards and visual reports for management in read-only mode.
+
+Out of scope:
+
+Financial or accounting system integration.
+
+Real-time notifications (email, messaging platforms, push notifications).
+
+Native mobile applications (Android or iOS).
+
+2. Definitions and Terminology
+
+Project: A housing development project or cluster (for example, “Cluster A”).
+
+House Unit: An individual housing unit within a project.
+
+Report: A progress report submitted by a foreman for a specific house unit.
+
+Official Progress Status: The verified and final progress status of a house unit set by construction staff.
+
+RBAC (Role-Based Access Control): Access control mechanism based on user roles.
+
+Read-only: Access mode that allows viewing data without creating, editing, or deleting records.
+
+3. Users and Roles
+Role	Description
+Admin	Manages master system data
+Foreman	Reports construction progress from the field
+Construction Staff	Verifies reports and sets official unit status
+Management	Monitors progress visually in read-only mode
+4. System Overview and Core Flows
+4.1 Authentication and Routing
+
+All users access the system through a single login endpoint /login.
+
+After successful authentication, the system redirects users based on their role:
+
+Admin → Admin Panel
+
+Foreman → Foreman Dashboard
+
+Construction Staff → Staff Dashboard
+
+Management → Monitoring Dashboard
+
+4.2 Progress Reporting Flow (Foreman)
+
+The foreman opens the “My Units” page.
+
+The foreman selects an assigned house unit.
+
+The foreman creates a new report by uploading a photo, entering a description, and specifying a progress percentage.
+
+The system stores the report and displays it in the foreman’s report history.
+
+4.3 Verification Flow (Construction Staff)
+
+Construction staff open the “All Reports” page and apply filters if needed.
+
+Construction staff review report details, including photos.
+
+Construction staff update the official progress status of the house unit.
+
+The system records an audit trail for the status change.
+
+4.4 Monitoring Flow (Management)
+
+Management users view dashboards with progress visualizations.
+
+Management users can view project details, unit status summaries, and report details.
+
+No create, edit, or delete actions are available.
+
+5. Functional Requirements (Engineering, Testable)
+5.1 Authentication, Authorization, and Session Management
+
+REQ-AUTH-01: The system must provide a login endpoint at /login for all user roles.
+
+REQ-AUTH-02: The system must validate user credentials and reject invalid login attempts.
+
+REQ-AUTH-03: The system must enforce role-based access control for all UI actions and backend endpoints.
+
+REQ-AUTH-04: The system must redirect users to the appropriate dashboard based on their role after successful login.
+
+REQ-AUTH-05: The system must terminate user sessions on logout and reject requests using invalid sessions.
+
+5.2 Admin: Project Management
+
+REQ-ADM-PROJ-01: Admin users can create a project with at least the following fields: project name, optional identifier, optional description, and status.
+
+REQ-ADM-PROJ-02: Admin users can update existing project data.
+
+REQ-ADM-PROJ-03: Admin users can delete a project only if no house units are associated with it, otherwise the system must reject the deletion with a clear reason.
+
+REQ-ADM-PROJ-04: The system must display project lists with pagination and basic search by project name.
+
+5.3 Admin: House Unit Management and Assignment
+
+REQ-ADM-UNIT-01: Admin users can create house units with mandatory fields: project reference and unique unit code per project.
+
+REQ-ADM-UNIT-02: Each house unit must be assigned to exactly one foreman at a time.
+
+REQ-ADM-UNIT-03: The system must prevent assigning non-foreman users as house unit assignees.
+
+REQ-ADM-UNIT-04: The system must record assignment history, including previous assignee, new assignee, timestamp, and actor.
+
+REQ-ADM-UNIT-05: Admin users can view and filter house units by project, foreman, and status.
+
+5.4 Admin: User Management
+
+REQ-ADM-USER-01: Admin users can create system users with name, username or email, role, and password.
+
+REQ-ADM-USER-02: The system must enforce unique usernames or email addresses.
+
+REQ-ADM-USER-03: Admin users can reset user passwords.
+
+REQ-ADM-USER-04: Admin users can deactivate users without deleting historical data.
+
+5.5 Foreman: Assigned Units and Reporting
+
+REQ-FRM-UNIT-01: The system must display only house units assigned to the logged-in foreman.
+
+REQ-FRM-UNIT-02: Foremen must not access unassigned units through the UI or direct URL access.
+
+REQ-FRM-RPT-01: Foremen can create progress reports containing a photo, description, progress percentage, and report date.
+
+REQ-FRM-RPT-02: The system must validate uploaded images for file type and maximum size.
+
+REQ-FRM-RPT-03: Each report must be linked to a specific house unit and foreman.
+
+REQ-FRM-RPT-04: Foremen can view their report history with filtering by unit and date.
+
+REQ-FRM-RPT-05: Foremen cannot edit or delete reports after submission unless explicitly enabled with audit logging.
+
+5.6 Construction Staff: Report Review and Filtering
+
+REQ-STF-RPT-01: Construction staff can view all progress reports from all foremen.
+
+REQ-STF-RPT-02: The system must provide filters for reports by date range, project, unit, and foreman.
+
+REQ-STF-RPT-03: Construction staff can view detailed report information, including full-size photos and metadata.
+
+5.7 Construction Staff: Official Progress Status Management
+
+REQ-STF-STAT-01: Construction staff can update the official progress status of a house unit.
+
+REQ-STF-STAT-02: The system must separate reported progress percentages from the official progress status.
+
+REQ-STF-STAT-03: The system must record an audit trail for all official status changes, including old value, new value, timestamp, and user.
+
+REQ-STF-STAT-04: Only construction staff are authorized to modify official progress status.
+
+5.8 Management: Monitoring and Read-Only Access
+
+REQ-MGT-01: Management users can view dashboard metrics such as total completed units versus units under construction.
+
+REQ-MGT-02: Management users can view project lists and project details with summarized unit status.
+
+REQ-MGT-03: Management users can view progress report lists and report details, including photos.
+
+REQ-MGT-04: The system must block all create, edit, and delete actions for management users at both UI and backend levels.
+
+6. Non-Functional Requirements
+6.1 Security
+
+NFR-SEC-01: The system must use HTTPS in production environments.
+
+NFR-SEC-02: User passwords must be securely hashed.
+
+NFR-SEC-03: All sensitive endpoints must be protected by server-side role checks.
+
+NFR-SEC-04: Uploaded files must be stored securely and must not be executable.
+
+6.2 Performance
+
+NFR-PERF-01: Project, unit, and report listings must use pagination.
+
+NFR-PERF-02: Images must be optimized for list views and loaded in full resolution only on detail views.
+
+6.3 Reliability and Data Integrity
+
+NFR-REL-01: The system must maintain referential integrity between projects, units, reports, and users.
+
+NFR-REL-02: The system must prevent invalid data through input validation and error handling.
+
+6.4 Maintainability and Observability
+
+NFR-MNT-01: The system must log authentication events and official status changes.
+
+NFR-MNT-02: Upload limits and file type rules must be configurable.
+
+6.5 Usability
+
+NFR-USB-01: The foreman interface must minimize steps required to submit a report.
+
+NFR-USB-02: Filtering and search must be available for staff and management users.
+
+7. Constraints and Assumptions
+7.1 Constraints
+
+The system is web-based and requires an internet connection.
+
+Official progress status updates are restricted to construction staff.
+
+Management access is strictly read-only.
+
+7.2 Assumptions
+
+Each house unit has one assigned foreman at a time.
+
+A house unit can have multiple progress reports over time.
+
+Official progress status is the authoritative data source for management dashboards.
+
+8. Acceptance Criteria (High-Level)
+
+Users are redirected to the correct dashboard based on role after login.
+
+Foremen can submit progress reports only for assigned units.
+
+Construction staff can verify reports and update official unit status with audit logging.
+
+Management users can view dashboards and report details but cannot modify any data.

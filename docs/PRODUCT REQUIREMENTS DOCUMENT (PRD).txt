@@ -1,0 +1,202 @@
+PRODUCT REQUIREMENTS DOCUMENT (PRD)
+
+Web-Based Housing Construction Progress Monitoring System
+
+1. Product Overview
+1.1 Background
+
+In many housing construction projects, progress monitoring is still conducted manually and in a fragmented manner across different communication channels. This approach makes it difficult for management to obtain accurate, up-to-date, and well-documented information regarding construction progress. As a result, decision-making processes often rely on incomplete or inconsistent data.
+
+To address these challenges, a web-based information system is required to integrate field progress reporting, progress verification, and data visualization into a single, centralized platform. This system is expected to improve transparency, data consistency, and efficiency in monitoring housing construction projects.
+
+1.2 Product Objectives
+
+The objective of this product is to build a web-based housing construction progress monitoring system that enables:
+
+Structured and standardized field progress reporting by foremen.
+
+Verification and official progress status updates by construction staff.
+
+Visual and transparent progress monitoring for management.
+
+Centralized management of project, housing unit, and user data by administrators.
+
+2. Product Scope
+2.1 In-Scope
+
+The system scope includes the following functionalities:
+
+A centralized login system supporting multiple user roles.
+
+Management of housing construction projects.
+
+Management of housing unit data and system users.
+
+Field progress reporting using photos, descriptions, and progress percentages.
+
+Verification of progress reports and official status updates by construction staff.
+
+Visual monitoring dashboards for management users.
+
+2.2 Out of Scope
+
+The following features are explicitly excluded from the system scope:
+
+Integration with financial or accounting systems.
+
+Real-time notification features such as email, WhatsApp, or push notifications.
+
+Native mobile applications for Android or iOS platforms.
+
+3. User Roles and Descriptions
+Role	Description
+Admin	Manages master data and system configuration
+Foreman	Reports construction progress from the field
+Construction Staff	Verifies reports and determines official progress status
+Management	Monitors construction progress visually in read-only mode
+4. General User Flow
+4.1 Universal Login Flow
+
+All users access the system through a single login page at /login.
+
+The system validates user credentials.
+
+The system identifies the user role upon successful authentication.
+
+Users are redirected to role-specific dashboards:
+
+Admin → Admin Panel
+
+Foreman → Foreman Dashboard
+
+Construction Staff → Staff Dashboard
+
+Management → Monitoring Dashboard
+
+5. Functional Requirements
+5.1 Role: Admin
+Available Menus
+
+Dashboard
+
+Projects
+
+House Units
+
+Users
+
+Functional Capabilities
+
+FR-01: The system provides a system statistics dashboard for admin users.
+
+FR-02: Admin users can create, update, and delete project data.
+
+FR-03: Admin users can create housing units and associate them with specific projects.
+
+FR-04: Admin users can assign one foreman to one or more housing units using a selection dropdown.
+
+FR-05: Admin users can create new user accounts with Foreman, Construction Staff, or Management roles.
+
+FR-06: The system stores and maintains the relationship between housing units and assigned foremen consistently in the database.
+
+5.2 Role: Foreman
+Available Menus
+
+My Units
+
+My Reports
+
+Functional Capabilities
+
+FR-07: The system displays only the housing units assigned to the logged-in foreman.
+
+FR-08: Foremen can create progress reports for assigned housing units.
+
+FR-09: The progress report form includes photo upload, descriptive notes, and a progress percentage field.
+
+FR-10: The system stores progress reports with references to the related housing unit and foreman.
+
+FR-11: Foremen can view the history of progress reports they have submitted.
+
+FR-12: Foremen are not authorized to update the final or official progress status of housing units.
+
+5.3 Role: Construction Staff
+Available Menus
+
+Projects
+
+House Units
+
+All Reports
+
+Functional Capabilities
+
+FR-13: Construction staff can view all progress reports submitted by all foremen.
+
+FR-14: The system provides filtering capabilities for reports based on date and project.
+
+FR-15: Construction staff can officially update the progress status of housing units.
+
+FR-16: The system records metadata for each status update, including the user who performed the change.
+
+FR-17: Only construction staff are authorized to modify the official progress status of housing units.
+
+5.4 Role: Management
+Available Menus
+
+Dashboard
+
+Monitoring Projects
+
+Monitoring Reports
+
+Functional Capabilities
+
+FR-18: The system provides a visual dashboard displaying construction progress metrics in graphical form.
+
+FR-19: Management users can view detailed project and housing unit information.
+
+FR-20: Management users can view detailed progress reports, including uploaded photos.
+
+FR-21: The system enforces read-only access for management users.
+
+FR-22: Management users cannot create, edit, or delete any system data.
+
+6. Non-Functional Requirements
+
+NFR-01 (Security): The system uses role-based authentication and authorization mechanisms.
+
+NFR-02 (Usability): The user interface is designed to be easily understood by non-technical users.
+
+NFR-03 (Performance): The system displays reports and dashboards without significant delays under normal usage conditions.
+
+NFR-04 (Reliability): Progress data and reports are stored consistently and protected against data loss.
+
+NFR-05 (Maintainability): The system architecture supports future enhancements and maintenance.
+
+7. Constraints and Assumptions
+7.1 Constraints
+
+The system is developed as a web-based application.
+
+System access requires an active internet connection.
+
+Final progress validation is restricted to construction staff.
+
+7.2 Assumptions
+
+Each housing unit has a single official progress status at any given time.
+
+Foremen are responsible only for reporting progress, not determining final status.
+
+Management users require visual information for monitoring purposes rather than data input.
+
+8. Success Metrics
+
+Foremen can submit progress reports without validation errors.
+
+Construction staff can update housing unit progress status accurately.
+
+Management users can monitor project progress in near real-time through dashboards.
+
+No unauthorized data access occurs across different user roles.
