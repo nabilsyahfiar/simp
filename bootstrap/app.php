@@ -11,7 +11,14 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        $middleware->trustProxies(at: '*');
+        $shouldTrustProxies = filter_var(env('TRUST_PROXIES', false), FILTER_VALIDATE_BOOL);
+
+        if ($shouldTrustProxies) {
+            $trustedProxies = env('TRUSTED_PROXIES', '*');
+            $trustedProxies = $trustedProxies === '*' ? '*' : array_map('trim', explode(',', $trustedProxies));
+
+            $middleware->trustProxies(at: $trustedProxies);
+        }
 
         $middleware->alias([
             'role' => \Spatie\Permission\Middleware\RoleMiddleware::class,
