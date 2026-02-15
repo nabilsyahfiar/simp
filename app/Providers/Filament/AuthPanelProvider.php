@@ -30,6 +30,7 @@ class AuthPanelProvider extends PanelProvider
             ->colors([
                 'primary' => Color::Amber,
             ])
+            ->brandName('Sistem Monitoring Progres Perumahan')
             ->renderHook(
                 PanelsRenderHook::HEAD_END,
                 fn (): string => view('filament.auth.mobile-login-fix')->render(),

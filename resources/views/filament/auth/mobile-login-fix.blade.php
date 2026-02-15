@@ -18,10 +18,22 @@
             gap: 1rem;
         }
 
+        .fi-simple-header {
+            text-align: center;
+            align-items: center;
+        }
+
         .fi-simple-header .fi-logo {
             margin-bottom: 0.25rem;
-            max-height: 2rem;
-            overflow: hidden;
+            max-height: none;
+            overflow: visible;
+            white-space: normal;
+            line-height: 1.2;
+            font-size: 1.5rem;
+            text-wrap: balance;
+            justify-content: center;
+            text-align: center;
+            width: 100%;
         }
 
         .fi-simple-header .fi-logo img,

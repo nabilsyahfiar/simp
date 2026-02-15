@@ -31,6 +31,7 @@ class ForemanPanelProvider extends PanelProvider
             ->colors([
                 'primary' => Color::Amber,
             ])
+            ->brandName('Sistem Monitoring Progres Perumahan')
             ->discoverResources(in: app_path('Filament/Foreman/Resources'), for: 'App\Filament\Foreman\Resources')
             ->discoverPages(in: app_path('Filament/Foreman/Pages'), for: 'App\Filament\Foreman\Pages')
             ->pages([
@@ -56,7 +57,6 @@ class ForemanPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 FilamentAuthenticate::class,
-                'role:foreman',
             ]);
     }
 }

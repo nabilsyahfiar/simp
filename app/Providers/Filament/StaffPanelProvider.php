@@ -29,6 +29,7 @@ class StaffPanelProvider extends PanelProvider
             ->colors([
                 'primary' => Color::Amber,
             ])
+            ->brandName('Sistem Monitoring Progres Perumahan')
             ->discoverResources(in: app_path('Filament/Staff/Resources'), for: 'App\Filament\Staff\Resources')
             ->discoverPages(in: app_path('Filament/Staff/Pages'), for: 'App\Filament\Staff\Pages')
             ->pages([
@@ -52,7 +53,6 @@ class StaffPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 FilamentAuthenticate::class,
-                'role:staff',
             ]);
     }
 }

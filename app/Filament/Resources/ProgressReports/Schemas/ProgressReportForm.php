@@ -3,10 +3,10 @@
 namespace App\Filament\Resources\ProgressReports\Schemas;
 
 use Filament\Forms\Components\DateTimePicker;
-use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\ViewField;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 
 class ProgressReportForm
@@ -39,7 +39,8 @@ class ProgressReportForm
                             ->label('Description')
                             ->columnSpanFull(),
                     ])
-                    ->columns(2),
+                    ->columns(2)
+                    ->columnSpanFull(),
                 Section::make('Photos')
                     ->schema([
                         ViewField::make('photos_preview')
