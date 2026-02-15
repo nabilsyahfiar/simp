@@ -11,6 +11,8 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        $middleware->prepend(\App\Http\Middleware\NormalizeForwardedScheme::class);
+
         $shouldTrustProxies = filter_var(env('TRUST_PROXIES', false), FILTER_VALIDATE_BOOL);
 
         if ($shouldTrustProxies) {

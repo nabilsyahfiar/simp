@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Http\Responses\FilamentLoginResponse;
 use Filament\Auth\Http\Responses\Contracts\LoginResponse as LoginResponseContract;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -21,6 +22,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        $forceHttps = app()->isProduction() || filter_var(env('FORCE_HTTPS', false), FILTER_VALIDATE_BOOL);
+
+        if ($forceHttps) {
+            URL::forceScheme('https');
+            URL::forceRootUrl(config('app.url'));
+        }
     }
 }

@@ -54,18 +54,13 @@ class ProgressReportForm
                     ->disk('public')
                     ->directory('progress-reports')
                     ->image()
-                    ->orientImagesFromExif()
                     ->imagePreviewHeight('180')
-                    ->automaticallyResizeImagesMode('contain')
-                    ->automaticallyResizeImagesToWidth('1920')
-                    ->automaticallyResizeImagesToHeight('1920')
-                    ->automaticallyUpscaleImagesWhenResizing(false)
                     ->multiple()
                     ->required()
                     ->minFiles(1)
                     ->maxFiles(5)
                     ->maxSize(8192)
-                    ->acceptedFileTypes(['image/jpeg', 'image/png'])
+                    ->acceptedFileTypes(['image/jpeg', 'image/jpg', 'image/png'])
                     ->columnSpanFull(),
             ]);
     }
