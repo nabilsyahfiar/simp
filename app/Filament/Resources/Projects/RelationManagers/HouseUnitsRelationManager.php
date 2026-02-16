@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Projects\RelationManagers;
 
+use App\Models\HouseUnit;
 use App\Models\UnitAssignment;
 use Filament\Actions\CreateAction;
 use Filament\Actions\DeleteAction;
@@ -26,8 +27,12 @@ class HouseUnitsRelationManager extends RelationManager
         return $schema
             ->components([
                 TextInput::make('unit_code')
-                    ->required()
+                    ->required(fn ($operation): bool => $operation !== 'create')
                     ->maxLength(50)
+                    ->disabled(fn ($operation): bool => $operation === 'create')
+                    ->dehydrated(fn ($operation): bool => $operation !== 'create')
+                    ->default(fn (): string => HouseUnit::generateNextUnitCodeForProject($this->getOwnerRecord()->id))
+                    ->helperText('Auto-generated from project code.')
                     ->rules([
                         fn ($record) => Rule::unique('house_units', 'unit_code')
                             ->where('project_id', $this->getOwnerRecord()->id)
@@ -82,6 +87,11 @@ class HouseUnitsRelationManager extends RelationManager
                 CreateAction::make()
                     ->label('Create House Unit')
                     ->icon('heroicon-m-plus')
+                    ->mutateFormDataUsing(function (array $data): array {
+                        $data['unit_code'] = HouseUnit::generateNextUnitCodeForProject($this->getOwnerRecord()->id);
+
+                        return $data;
+                    })
                     ->after(function (CreateAction $action): void {
                         $record = $action->getRecord();
 

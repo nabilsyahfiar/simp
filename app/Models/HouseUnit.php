@@ -84,4 +84,26 @@ class HouseUnit extends Model
             ]);
         });
     }
+
+    public static function generateNextUnitCodeForProject(int $projectId): string
+    {
+        $project = Project::query()->findOrFail($projectId);
+
+        $baseCode = strtoupper((string) ($project->code ?: 'PRJ' . $project->id));
+        $baseCode = preg_replace('/[^A-Z0-9]/', '', $baseCode) ?: ('PRJ' . $project->id);
+
+        $maxNumber = static::query()
+            ->where('project_id', $projectId)
+            ->pluck('unit_code')
+            ->map(function (string $code) use ($baseCode): int {
+                if (! preg_match('/^' . preg_quote($baseCode, '/') . '-(\d+)$/', $code, $matches)) {
+                    return 0;
+                }
+
+                return (int) $matches[1];
+            })
+            ->max() ?? 0;
+
+        return sprintf('%s-%04d', $baseCode, $maxNumber + 1);
+    }
 }
