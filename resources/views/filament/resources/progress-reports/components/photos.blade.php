@@ -21,6 +21,7 @@
             object-fit: cover;
             border-radius: 10px;
             cursor: zoom-in;
+            transition: opacity 0.2s ease-in-out;
         }
 
         .report-photo-item {
@@ -99,8 +100,7 @@
                         x-on:error="failed = true"
                         x-on:click="if (!failed) { active = {{ \Illuminate\Support\Js::from($photoUrl) }}; open = true }"
                         class="report-photo-thumb"
-                        x-show="loaded && !failed"
-                        x-transition.opacity.duration.200ms
+                        x-bind:style="failed ? 'opacity:0;pointer-events:none;' : (loaded ? 'opacity:1;' : 'opacity:0;')"
                     />
                 </div>
             @endforeach
