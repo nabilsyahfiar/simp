@@ -9,9 +9,10 @@
         text-align: center !important;
         width: 100% !important;
         margin-inline: auto !important;
-        font-size: 1.75rem !important;
+        font-size: 1.4rem !important;
         line-height: 1.2 !important;
         max-height: none !important;
+        text-wrap: nowrap !important;
     }
 
     .fi-simple-header-heading {
@@ -51,10 +52,10 @@
             margin-bottom: 0.25rem;
             max-height: none;
             overflow: visible;
-            white-space: normal;
+            white-space: nowrap;
             line-height: 1.2;
-            font-size: 1.875rem !important;
-            text-wrap: balance;
+            font-size: 1.25rem !important;
+            text-wrap: nowrap;
             justify-content: center;
             text-align: center;
             width: 100%;
