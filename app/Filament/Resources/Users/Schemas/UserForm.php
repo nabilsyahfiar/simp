@@ -48,7 +48,7 @@ class UserForm
                     ->revealable()
                     ->dehydrated(false),
                 Toggle::make('is_active')
-                    ->label('Active')
+                    ->label('Aktif')
                     ->default(true),
             ]);
     }

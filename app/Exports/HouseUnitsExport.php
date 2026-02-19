@@ -22,10 +22,10 @@ class HouseUnitsExport implements FromCollection, WithHeadings, WithMapping
     {
         return [
             'Unit',
-            'Project',
-            'Foreman',
+            'Proyek',
+            'Mandor',
             'Status',
-            'Progress',
+            'Progres',
         ];
     }
 
@@ -36,7 +36,7 @@ class HouseUnitsExport implements FromCollection, WithHeadings, WithMapping
         if ($percent <= 0) {
             $status = 'Not started';
         } elseif ($percent >= 100) {
-            $status = 'Completed';
+            $status = 'Selesai';
         } else {
             $status = 'In progress';
         }

@@ -21,11 +21,11 @@ class ProgressReportsTable
         return $table
             ->columns([
                 TextColumn::make('report_date')
-                    ->label('Reported at')
+                    ->label('Tanggal Laporan')
                     ->dateTime('d M Y H:i')
                     ->sortable(),
                 TextColumn::make('unit.project.name')
-                    ->label('Project')
+                    ->label('Proyek')
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('unit.unit_code')
@@ -33,31 +33,31 @@ class ProgressReportsTable
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('foreman.name')
-                    ->label('Foreman')
+                    ->label('Mandor')
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('reported_percent')
-                    ->label('Progress')
+                    ->label('Progres')
                     ->formatStateUsing(fn ($state) => ($state ?? 0) . '%')
                     ->sortable(),
                 TextColumn::make('status')
                     ->label('Status')
                     ->badge()
-                    ->state(fn ($record) => $record->status === 'verified' ? 'Verified' : 'Pending')
-                    ->color(fn (string $state) => $state === 'Verified' ? 'success' : 'warning')
+                    ->state(fn ($record) => $record->status === 'verified' ? 'Terverifikasi' : 'Menunggu Verifikasi')
+                    ->color(fn (string $state) => $state === 'Terverifikasi' ? 'success' : 'warning')
                     ->sortable(),
                 TextColumn::make('verifiedBy.name')
-                    ->label('Verified by')
+                    ->label('Diverifikasi oleh')
                     ->placeholder('-'),
                 TextColumn::make('verified_at')
-                    ->label('Verified at')
+                    ->label('Tanggal Verifikasi')
                     ->dateTime('d M Y H:i')
                     ->placeholder('-')
                     ->sortable(),
             ])
             ->filters([
                 SelectFilter::make('project_id')
-                    ->label('Project')
+                    ->label('Proyek')
                     ->options(fn () => Project::query()->orderBy('name')->pluck('name', 'id')->all())
                     ->query(function (Builder $query, array $data): Builder {
                         $projectId = $data['value'] ?? null;
@@ -70,14 +70,14 @@ class ProgressReportsTable
                     })
                     ->native(false),
                 SelectFilter::make('foreman_id')
-                    ->label('Foreman')
+                    ->label('Mandor')
                     ->relationship('foreman', 'name')
                     ->native(false),
                 SelectFilter::make('status')
                     ->label('Status')
                     ->options([
-                        'pending' => 'Pending',
-                        'verified' => 'Verified',
+                        'pending' => 'Menunggu Verifikasi',
+                        'verified' => 'Terverifikasi',
                     ])
                     ->native(false),
             ])
@@ -108,17 +108,17 @@ class ProgressReportsTable
                                 ->get();
 
                             $headers = [
-                                'Reported at',
-                                'Project',
+                                'Tanggal Laporan',
+                                'Proyek',
                                 'Unit',
-                                'Foreman',
-                                'Progress',
+                                'Mandor',
+                                'Progres',
                                 'Status',
-                                'Photos',
+                                'Foto',
                             ];
 
                             $rows = $records->map(function ($record): array {
-                                $status = $record->status === 'verified' ? 'Verified' : 'Pending';
+                                $status = $record->status === 'verified' ? 'Terverifikasi' : 'Menunggu Verifikasi';
 
                                 return [
                                     $record->report_date?->format('Y-m-d H:i'),
@@ -134,7 +134,7 @@ class ProgressReportsTable
                             $timestamp = now()->format('Ymd-His');
 
                             $pdf = Pdf::loadView('exports.table', [
-                                'title' => 'Progress Reports',
+                                'title' => 'Laporan Progres',
                                 'headers' => $headers,
                                 'rows' => $rows,
                             ])->setPaper('a4', 'landscape');
@@ -144,7 +144,7 @@ class ProgressReportsTable
                             }, "progress-reports-{$timestamp}.pdf");
                         }),
                 ])
-                    ->label('Export')
+                    ->label('Ekspor')
                     ->icon('heroicon-o-arrow-down-tray')
                     ->color('gray')
                     ->button(),

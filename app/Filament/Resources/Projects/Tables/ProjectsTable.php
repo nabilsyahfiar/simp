@@ -25,6 +25,7 @@ class ProjectsTable
             ->modifyQueryUsing(fn ($query) => $query->withAvg('houseUnits', 'official_progress_percent'))
             ->columns([
                 TextColumn::make('name')
+                    ->label('Nama')
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('code')
@@ -33,26 +34,26 @@ class ProjectsTable
                     ->searchable(),
                 TextColumn::make('status')
                     ->badge()
-                    ->formatStateUsing(fn (?string $state): string => $state === 'inactive' ? 'Inactive' : 'Active')
+                    ->formatStateUsing(fn (?string $state): string => $state === 'inactive' ? 'Tidak Aktif' : 'Aktif')
                     ->sortable(),
                 TextColumn::make('house_units_avg_official_progress_percent')
-                    ->label('Progress')
+                    ->label('Progres')
                     ->formatStateUsing(fn ($state) => number_format((float) ($state ?? 0), 0) . '%')
                     ->sortable(),
                 TextColumn::make('start_date')
-                    ->label('Start date')
+                    ->label('Tanggal Mulai')
                     ->date()
                     ->sortable(),
                 TextColumn::make('house_units_count')
                     ->counts('houseUnits')
-                    ->label('Units')
+                    ->label('Unit')
                     ->sortable(),
             ])
             ->filters([
                 SelectFilter::make('status')
                     ->options([
-                        'active' => 'Active',
-                        'inactive' => 'Inactive',
+                        'active' => 'Aktif',
+                        'inactive' => 'Tidak Aktif',
                     ])
                     ->native(false),
             ])
@@ -65,8 +66,8 @@ class ProjectsTable
                         if ($record->houseUnits()->exists()) {
                             Notification::make()
                                 ->danger()
-                                ->title('Delete blocked')
-                                ->body('Projects with assigned house units cannot be deleted.')
+                                ->title('Hapus diblokir')
+                                ->body('Proyek yang sudah memiliki unit rumah tidak dapat dihapus.')
                                 ->send();
 
                             $action->cancel();
@@ -97,17 +98,17 @@ class ProjectsTable
                                 ->get();
 
                             $headers = [
-                                'Name',
-                                'Code',
-                                'Location',
+                                'Nama',
+                                'Kode',
+                                'Lokasi',
                                 'Status',
-                                'Progress',
-                                'Start date',
-                                'Units',
+                                'Progres',
+                                'Tanggal Mulai',
+                                'Unit',
                             ];
 
                             $rows = $records->map(function ($record): array {
-                                $status = $record->status === 'inactive' ? 'Inactive' : 'Active';
+                                $status = $record->status === 'inactive' ? 'Tidak Aktif' : 'Aktif';
                                 $progress = number_format((float) ($record->house_units_avg_official_progress_percent ?? 0), 0) . '%';
                                 $startDate = $record->start_date
                                     ? Carbon::parse($record->start_date)->format('Y-m-d')
@@ -127,7 +128,7 @@ class ProjectsTable
                             $timestamp = now()->format('Ymd-His');
 
                             $pdf = Pdf::loadView('exports.table', [
-                                'title' => 'Projects',
+                                'title' => 'Proyek',
                                 'headers' => $headers,
                                 'rows' => $rows,
                             ])->setPaper('a4', 'landscape');
@@ -137,7 +138,7 @@ class ProjectsTable
                             }, "projects-{$timestamp}.pdf");
                         }),
                 ])
-                    ->label('Export')
+                    ->label('Ekspor')
                     ->icon('heroicon-o-arrow-down-tray')
                     ->color('gray')
                     ->button(),

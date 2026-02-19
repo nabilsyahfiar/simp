@@ -16,11 +16,18 @@ class RoleAccessForm
 
         foreach (RoleAccessConfig::allPermissionModules() as $moduleKey => $moduleLabel) {
             $actions = ['view', 'create', 'edit', 'delete', 'verify'];
+            $actionLabels = [
+                'view' => 'Lihat',
+                'create' => 'Buat',
+                'edit' => 'Ubah',
+                'delete' => 'Hapus',
+                'verify' => 'Verifikasi',
+            ];
             $toggles = [];
 
             foreach ($actions as $action) {
                 $toggles[] = Toggle::make("permissions.{$moduleKey}.{$action}")
-                    ->label(ucfirst($action))
+                    ->label($actionLabels[$action] ?? ucfirst($action))
                     ->disabled(fn ($get): bool => ! (bool) ($get("menus.{$moduleKey}") ?? true))
                     ->visible(function ($get) use ($moduleKey, $action): bool {
                         $role = (string) ($get('name') ?? '');
@@ -46,8 +53,8 @@ class RoleAccessForm
         return $schema
             ->components([
                 Hidden::make('name'),
-                Section::make('Permission Access')
-                    ->description('Toggle action permissions for each module. Switch "Menu" on/off at the right side of each module title.')
+                Section::make('Akses Izin')
+                    ->description('Atur izin aksi untuk setiap modul. Gunakan tombol "Menu" di sisi kanan judul modul untuk menampilkan atau menyembunyikan menu.')
                     ->schema($permissionSections)
                     ->columnSpanFull(),
             ]);

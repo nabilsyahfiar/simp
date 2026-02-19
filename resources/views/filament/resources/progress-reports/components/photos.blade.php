@@ -4,7 +4,7 @@
 @endphp
 
 @if ($photos->isEmpty())
-    <div class="text-sm text-gray-500">No photos uploaded.</div>
+    <div class="text-sm text-gray-500">Belum ada foto yang diunggah.</div>
 @else
     <style>
         .report-photo-list {
@@ -90,7 +90,7 @@
                 @endphp
                 <div class="report-photo-item" x-data="{ loaded: false, failed: false }">
                     <div x-show="!loaded && !failed" class="report-photo-skeleton"></div>
-                    <div x-show="failed" class="report-photo-error">Failed to load photo</div>
+                    <div x-show="failed" class="report-photo-error">Gagal memuat foto</div>
                     <img
                         src="{{ $photoUrl }}"
                         alt="Report photo"

@@ -27,13 +27,13 @@ class ProjectForm
                     ->maxLength(1000),
                 Select::make('status')
                     ->options([
-                        'active' => 'Active',
-                        'inactive' => 'Inactive',
+                        'active' => 'Aktif',
+                        'inactive' => 'Tidak Aktif',
                     ])
                     ->required()
                     ->native(false),
                 DatePicker::make('start_date')
-                    ->label('Start date')
+                    ->label('Tanggal Mulai')
                     ->required()
                     ->native(false),
             ]);

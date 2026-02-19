@@ -22,10 +22,10 @@ class UsersExport implements FromCollection, WithHeadings, WithMapping
     public function headings(): array
     {
         return [
-            'Name',
+            'Nama',
             'Email',
             'Username',
-            'Role',
+            'Peran',
             'Status',
         ];
     }
@@ -33,7 +33,7 @@ class UsersExport implements FromCollection, WithHeadings, WithMapping
     public function map($record): array
     {
         $role = Str::ucfirst((string) $record->getRoleNames()->first());
-        $status = $record->is_active ? 'Active' : 'Inactive';
+        $status = $record->is_active ? 'Aktif' : 'Tidak Aktif';
 
         return [
             $record->name,

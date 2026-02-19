@@ -14,7 +14,7 @@ class RoleMenuSettingsTable
         return $table
             ->columns([
                 TextColumn::make('role')
-                    ->label('Role')
+                    ->label('Peran')
                     ->badge()
                     ->formatStateUsing(fn (string $state): string => ucfirst($state))
                     ->sortable(),
@@ -23,16 +23,16 @@ class RoleMenuSettingsTable
                     ->searchable()
                     ->sortable(),
                 ToggleColumn::make('is_enabled')
-                    ->label('Enabled')
+                    ->label('Aktif')
                     ->onColor('success')
                     ->offColor('danger'),
             ])
             ->filters([
                 SelectFilter::make('role')
                     ->options([
-                        'staff' => 'Staff',
-                        'foreman' => 'Foreman',
-                        'management' => 'Management',
+                        'staff' => 'Staf',
+                        'foreman' => 'Mandor',
+                        'management' => 'Manajemen',
                     ])
                     ->native(false),
             ])

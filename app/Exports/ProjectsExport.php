@@ -22,19 +22,19 @@ class ProjectsExport implements FromCollection, WithHeadings, WithMapping
     public function headings(): array
     {
         return [
-            'Name',
-            'Code',
-            'Location',
+            'Nama',
+            'Kode',
+            'Lokasi',
             'Status',
-            'Progress',
-            'Start date',
-            'Units',
+            'Progres',
+            'Tanggal Mulai',
+            'Unit',
         ];
     }
 
     public function map($record): array
     {
-        $status = $record->status === 'inactive' ? 'Inactive' : 'Active';
+        $status = $record->status === 'inactive' ? 'Tidak Aktif' : 'Aktif';
         $progress = number_format((float) ($record->house_units_avg_official_progress_percent ?? 0), 0) . '%';
         $startDate = $record->start_date
             ? Carbon::parse($record->start_date)->format('Y-m-d')

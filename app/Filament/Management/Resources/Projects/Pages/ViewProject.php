@@ -22,21 +22,21 @@ class ViewProject extends ViewRecord
     {
         return $schema
             ->components([
-                TextInput::make('name')->label('Name'),
-                TextInput::make('code')->label('Code'),
-                TextInput::make('location')->label('Location'),
+                TextInput::make('name')->label('Nama'),
+                TextInput::make('code')->label('Kode'),
+                TextInput::make('location')->label('Lokasi'),
                 TextInput::make('status_label')
                     ->label('Status')
                     ->dehydrated(false),
                 TextInput::make('progress_average')
-                    ->label('Progress')
+                    ->label('Progres')
                     ->dehydrated(false),
                 DatePicker::make('start_date')
-                    ->label('Start date')
+                    ->label('Tanggal Mulai')
                     ->dehydrated(false)
                     ->native(false),
                 Textarea::make('description')
-                    ->label('Description')
+                    ->label('Deskripsi')
                     ->dehydrated(false)
                     ->columnSpanFull(),
             ]);
@@ -47,7 +47,7 @@ class ViewProject extends ViewRecord
         $record = $this->getRecord();
         $average = (float) ($record->houseUnits()->avg('official_progress_percent') ?? 0);
 
-        $data['status_label'] = $record->status === 'inactive' ? 'Inactive' : 'Active';
+        $data['status_label'] = $record->status === 'inactive' ? 'Tidak Aktif' : 'Aktif';
         $data['progress_average'] = number_format($average, 0) . '%';
 
         return $data;

@@ -23,9 +23,11 @@ class ProjectResource extends Resource
 {
     protected static ?string $model = Project::class;
 
-    protected static string | UnitEnum | null $navigationGroup = 'Master Data';
+    protected static string | UnitEnum | null $navigationGroup = 'Data Master';
 
-    protected static ?string $navigationLabel = 'Projects';
+    protected static ?string $navigationLabel = 'Proyek';
+    protected static ?string $modelLabel = 'Proyek';
+    protected static ?string $pluralModelLabel = 'Proyek';
 
     protected static ?string $recordTitleAttribute = 'name';
 

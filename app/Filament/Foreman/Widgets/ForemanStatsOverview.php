@@ -12,7 +12,7 @@ class ForemanStatsOverview extends StatsOverviewWidget
 {
     protected static ?int $sort = 1;
 
-    protected ?string $heading = 'Work Overview';
+    protected ?string $heading = 'Ringkasan Pekerjaan';
 
     protected function getStats(): array
     {
@@ -38,26 +38,25 @@ class ForemanStatsOverview extends StatsOverviewWidget
             ->count();
 
         return [
-            Stat::make('Assigned Units', $assignedUnits)
-                ->description('Units assigned to you')
+            Stat::make('Unit Tugas', $assignedUnits)
+                ->description('Unit Ditugaskan')
                 ->descriptionColor('info')
                 ->descriptionIcon('heroicon-m-home-modern', IconPosition::After),
-            Stat::make('In Progress Units', $inProgressUnits)
-                ->description('Units currently in progress')
+            Stat::make('Unit Dalam Proses', $inProgressUnits)
+                ->description('Sedang Dikerjakan')
                 ->descriptionColor('warning')
                 ->descriptionIcon('heroicon-m-wrench-screwdriver', IconPosition::After)
                 ->color('warning'),
-            Stat::make('Completed Units', $completedUnits)
-                ->description('Units finished at 100%')
+            Stat::make('Unit Selesai', $completedUnits)
+                ->description('Sudah Selesai')
                 ->descriptionColor('success')
                 ->descriptionIcon('heroicon-m-check-badge', IconPosition::After)
                 ->color('success'),
-            Stat::make('Pending Reports', $pendingReports)
-                ->description('Reports waiting staff verification')
+            Stat::make('Laporan Menunggu Verifikasi', $pendingReports)
+                ->description('Menunggu Verifikasi')
                 ->descriptionColor($pendingReports > 0 ? 'warning' : 'success')
                 ->descriptionIcon('heroicon-m-clock', IconPosition::After)
                 ->color($pendingReports > 0 ? 'warning' : 'success'),
         ];
     }
 }
-

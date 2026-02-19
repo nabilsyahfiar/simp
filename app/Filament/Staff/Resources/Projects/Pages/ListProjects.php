@@ -15,7 +15,7 @@ class ListProjects extends ListRecords
     {
         return [
             CreateAction::make()
-                ->label('Create ' . Str::title(static::getResource()::getModelLabel()))
+                ->label('Buat ' . Str::title(static::getResource()::getModelLabel()))
                 ->icon('heroicon-m-plus'),
         ];
     }

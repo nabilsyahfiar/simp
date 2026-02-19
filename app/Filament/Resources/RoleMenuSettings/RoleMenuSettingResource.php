@@ -17,9 +17,11 @@ class RoleMenuSettingResource extends Resource
 
     protected static bool $shouldRegisterNavigation = false;
 
-    protected static string | UnitEnum | null $navigationGroup = 'System';
+    protected static string | UnitEnum | null $navigationGroup = 'Sistem';
 
-    protected static ?string $navigationLabel = 'Role Menu Settings';
+    protected static ?string $navigationLabel = 'Pengaturan Menu Peran';
+    protected static ?string $modelLabel = 'Pengaturan Menu Peran';
+    protected static ?string $pluralModelLabel = 'Pengaturan Menu Peran';
 
     protected static ?int $navigationSort = 10;
 

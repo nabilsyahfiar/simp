@@ -14,34 +14,34 @@ class StatusAuditLogForm
     {
         return $schema
             ->components([
-                Section::make('Audit Details')
+                Section::make('Detail Audit')
                     ->schema([
                         TextInput::make('project_name')
-                            ->label('Project')
+                            ->label('Proyek')
                             ->dehydrated(false),
                         TextInput::make('unit_code')
-                            ->label('Unit')
+                            ->label('Kode Unit')
                             ->dehydrated(false),
                         TextInput::make('changed_by_name')
-                            ->label('Changed by')
+                            ->label('Diubah oleh')
                             ->dehydrated(false),
                         DateTimePicker::make('changed_at')
-                            ->label('Changed at')
+                            ->label('Waktu Perubahan')
                             ->native(false),
                         TextInput::make('old_status_label')
-                            ->label('Old status')
+                            ->label('Status Lama')
                             ->dehydrated(false),
                         TextInput::make('new_status_label')
-                            ->label('New status')
+                            ->label('Status Baru')
                             ->dehydrated(false),
                         TextInput::make('old_percent')
-                            ->label('Old progress')
+                            ->label('Progres Lama')
                             ->suffix('%'),
                         TextInput::make('new_percent')
-                            ->label('New progress')
+                            ->label('Progres Baru')
                             ->suffix('%'),
                         Textarea::make('note')
-                            ->label('Note')
+                            ->label('Catatan')
                             ->columnSpanFull(),
                     ])
                     ->columns(2)

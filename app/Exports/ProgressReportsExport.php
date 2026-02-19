@@ -21,19 +21,19 @@ class ProgressReportsExport implements FromCollection, WithHeadings, WithMapping
     public function headings(): array
     {
         return [
-            'Reported at',
-            'Project',
+            'Tanggal Laporan',
+            'Proyek',
             'Unit',
-            'Foreman',
-            'Progress',
+            'Mandor',
+            'Progres',
             'Status',
-            'Photos',
+            'Foto',
         ];
     }
 
     public function map($record): array
     {
-        $status = $record->status === 'verified' ? 'Verified' : 'Pending';
+        $status = $record->status === 'verified' ? 'Terverifikasi' : 'Menunggu Verifikasi';
 
         return [
             $record->report_date?->format('Y-m-d H:i'),

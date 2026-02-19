@@ -46,7 +46,7 @@ class HouseUnitForm
                             ->ignore($record),
                     ]),
                 Select::make('assigned_foreman_id')
-                    ->label('Foreman')
+                    ->label('Mandor')
                     ->relationship('assignedForeman', 'name', modifyQueryUsing: fn ($query) => $query->role('foreman'))
                     ->searchable()
                     ->preload()

@@ -16,7 +16,7 @@ class ProgressReportsTable
         return $table
             ->columns([
                 TextColumn::make('report_date')
-                    ->label('Report date')
+                    ->label('Tanggal Laporan')
                     ->dateTime('d M Y H:i')
                     ->sortable(),
                 TextColumn::make('unit.unit_code')
@@ -24,20 +24,20 @@ class ProgressReportsTable
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('unit.project.name')
-                    ->label('Project')
+                    ->label('Proyek')
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('reported_percent')
-                    ->label('Progress')
+                    ->label('Progres')
                     ->formatStateUsing(fn ($state) => ($state ?? 0) . '%')
                     ->sortable(),
                 TextColumn::make('status')
                     ->badge()
-                    ->state(fn ($record) => $record->status === 'verified' ? 'Verified' : 'Pending')
-                    ->color(fn (string $state) => $state === 'Verified' ? 'success' : 'warning')
+                    ->state(fn ($record) => $record->status === 'verified' ? 'Terverifikasi' : 'Menunggu Verifikasi')
+                    ->color(fn (string $state) => $state === 'Terverifikasi' ? 'success' : 'warning')
                     ->sortable(),
                 TextColumn::make('verifiedBy.name')
-                    ->label('Verified by')
+                    ->label('Diverifikasi oleh')
                     ->placeholder('-')
                     ->sortable(),
             ])
@@ -53,8 +53,8 @@ class ProgressReportsTable
                 SelectFilter::make('status')
                     ->label('Status')
                     ->options([
-                        'pending' => 'Pending',
-                        'verified' => 'Verified',
+                        'pending' => 'Menunggu Verifikasi',
+                        'verified' => 'Terverifikasi',
                     ])
                     ->native(false),
             ])

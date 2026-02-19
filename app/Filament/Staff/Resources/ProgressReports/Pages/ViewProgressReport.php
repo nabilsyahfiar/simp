@@ -20,7 +20,7 @@ class ViewProgressReport extends ViewRecord
         $data['project_name'] = $record->unit?->project?->name;
         $data['unit_code'] = $record->unit?->unit_code;
         $data['foreman_name'] = $record->foreman?->name;
-        $data['status_label'] = $record->status === 'verified' ? 'Verified' : 'Pending';
+        $data['status_label'] = $record->status === 'verified' ? 'Terverifikasi' : 'Menunggu Verifikasi';
         $data['verified_by_name'] = $record->verifiedBy?->name;
 
         return $data;
@@ -30,7 +30,7 @@ class ViewProgressReport extends ViewRecord
     {
         return [
             Action::make('verify')
-                ->label(fn (ProgressReport $record): string => $record->status === 'pending' ? 'Verify' : 'Verified')
+                ->label(fn (ProgressReport $record): string => $record->status === 'pending' ? 'Verifikasi' : 'Terverifikasi')
                 ->icon('heroicon-m-check-circle')
                 ->color(fn (ProgressReport $record): string => $record->status === 'pending' ? 'success' : 'gray')
                 ->requiresConfirmation()
@@ -44,7 +44,7 @@ class ViewProgressReport extends ViewRecord
                         $verifiedAt = $record->verified_at?->timezone('Asia/Jakarta')->format('d M Y H:i') ?? '-';
 
                         Notification::make()
-                            ->title('Report already verified')
+                            ->title('Laporan sudah diverifikasi')
                             ->body("This report was already verified by {$verifiedBy} at {$verifiedAt}.")
                             ->warning()
                             ->send();
@@ -65,7 +65,7 @@ class ViewProgressReport extends ViewRecord
                     }
 
                     Notification::make()
-                        ->title('Report verified')
+                        ->title('Laporan berhasil diverifikasi')
                         ->success()
                         ->send();
 

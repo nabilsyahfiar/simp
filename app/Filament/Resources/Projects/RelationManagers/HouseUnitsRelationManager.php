@@ -27,19 +27,20 @@ class HouseUnitsRelationManager extends RelationManager
         return $schema
             ->components([
                 TextInput::make('unit_code')
+                    ->label('Kode Unit')
                     ->required(fn ($operation): bool => $operation !== 'create')
                     ->maxLength(50)
                     ->disabled(fn ($operation): bool => $operation === 'create')
                     ->dehydrated(fn ($operation): bool => $operation !== 'create')
                     ->default(fn (): string => HouseUnit::generateNextUnitCodeForProject($this->getOwnerRecord()->id))
-                    ->helperText('Auto-generated from project code.')
+                    ->helperText('Dibuat otomatis dari kode proyek.')
                     ->rules([
                         fn ($record) => Rule::unique('house_units', 'unit_code')
                             ->where('project_id', $this->getOwnerRecord()->id)
                             ->ignore($record),
                     ]),
                 Select::make('assigned_foreman_id')
-                    ->label('Foreman')
+                    ->label('Mandor')
                     ->relationship('assignedForeman', 'name', modifyQueryUsing: fn ($query) => $query->role('foreman'))
                     ->searchable()
                     ->preload()
@@ -55,10 +56,11 @@ class HouseUnitsRelationManager extends RelationManager
         return $table
             ->columns([
                 TextColumn::make('unit_code')
+                    ->label('Kode Unit')
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('assignedForeman.name')
-                    ->label('Foreman')
+                    ->label('Mandor')
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('official_status')
@@ -68,24 +70,24 @@ class HouseUnitsRelationManager extends RelationManager
                         $percent = $record->official_progress_percent ?? 0;
 
                         if ($percent <= 0) {
-                            return 'Not started';
+                            return 'Belum Mulai';
                         }
 
                         if ($percent >= 100) {
-                            return 'Completed';
+                            return 'Selesai';
                         }
 
-                        return 'In progress';
+                        return 'Dalam Proses';
                     })
                     ->sortable(),
                 TextColumn::make('official_progress_percent')
-                    ->label('Progress')
+                    ->label('Progres')
                     ->formatStateUsing(fn ($state) => ($state ?? 0) . '%')
                     ->sortable(),
             ])
             ->headerActions([
                 CreateAction::make()
-                    ->label('Create House Unit')
+                    ->label('Buat Unit Rumah')
                     ->icon('heroicon-m-plus')
                     ->mutateFormDataUsing(function (array $data): array {
                         $data['unit_code'] = HouseUnit::generateNextUnitCodeForProject($this->getOwnerRecord()->id);

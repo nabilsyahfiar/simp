@@ -14,13 +14,13 @@ class RoleAccessesTable
         return $table
             ->columns([
                 TextColumn::make('name')
-                    ->label('Role')
+                    ->label('Peran')
                     ->badge()
                     ->formatStateUsing(fn (string $state): string => RoleAccessConfig::roleLabels()[$state] ?? ucfirst($state))
                     ->sortable(),
             ])
             ->recordActions([
-                EditAction::make()->label('Manage Access')->icon('heroicon-m-cog-6-tooth')->color('info'),
+                EditAction::make()->label('Kelola Akses')->icon('heroicon-m-cog-6-tooth')->color('info'),
             ])
             ->defaultSort('name')
             ->paginated(false);

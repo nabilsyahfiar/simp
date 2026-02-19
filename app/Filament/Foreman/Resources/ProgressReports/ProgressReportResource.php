@@ -23,9 +23,11 @@ class ProgressReportResource extends Resource
 {
     protected static ?string $model = ProgressReport::class;
 
-    protected static string | UnitEnum | null $navigationGroup = 'Work';
+    protected static string | UnitEnum | null $navigationGroup = 'Pekerjaan';
 
-    protected static ?string $navigationLabel = 'Progress Reports';
+    protected static ?string $navigationLabel = 'Laporan Progres';
+    protected static ?string $modelLabel = 'Laporan Progres';
+    protected static ?string $pluralModelLabel = 'Laporan Progres';
 
     protected static ?int $navigationSort = 2;
 

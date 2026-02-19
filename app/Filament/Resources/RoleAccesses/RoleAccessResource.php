@@ -19,9 +19,11 @@ class RoleAccessResource extends Resource
 {
     protected static ?string $model = Role::class;
 
-    protected static string | UnitEnum | null $navigationGroup = 'System';
+    protected static string | UnitEnum | null $navigationGroup = 'Sistem';
 
-    protected static ?string $navigationLabel = 'Role Access';
+    protected static ?string $navigationLabel = 'Akses Peran';
+    protected static ?string $modelLabel = 'Akses Peran';
+    protected static ?string $pluralModelLabel = 'Akses Peran';
 
     protected static ?int $navigationSort = 9;
 

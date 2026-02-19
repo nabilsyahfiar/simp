@@ -30,12 +30,12 @@ class UsersTable
                 TextColumn::make('username')
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('role')
-                    ->label('Role')
+                    ->label('Peran')
                     ->state(fn ($record) => Str::ucfirst((string) $record->getRoleNames()->first()))
                     ->badge(),
                 TextColumn::make('is_active')
                     ->label('Status')
-                    ->state(fn ($record) => $record->is_active ? 'Active' : 'Inactive')
+                    ->state(fn ($record) => $record->is_active ? 'Aktif' : 'Tidak Aktif')
                     ->badge()
                     ->color(fn ($record) => $record->is_active ? 'success' : 'danger'),
             ])
@@ -55,17 +55,17 @@ class UsersTable
                         });
                     }),
                 SelectFilter::make('is_active')
-                    ->label('Active')
+                    ->label('Aktif')
                     ->options([
-                        1 => 'Active',
-                        0 => 'Inactive',
+                        1 => 'Aktif',
+                        0 => 'Tidak Aktif',
                     ])
                     ->native(false),
             ])
             ->recordActions([
                 EditAction::make(),
                 Action::make('toggle_active')
-                    ->label(fn ($record) => $record->is_active ? 'Deactivate' : 'Activate')
+                    ->label(fn ($record) => $record->is_active ? 'Nonaktifkan' : 'Aktifkan')
                     ->icon(fn ($record) => $record->is_active ? 'heroicon-m-lock-closed' : 'heroicon-m-lock-open')
                     ->color(fn ($record) => $record->is_active ? 'danger' : 'success')
                     ->requiresConfirmation()
@@ -73,7 +73,7 @@ class UsersTable
                         $record->update(['is_active' => ! $record->is_active]);
 
                         Notification::make()
-                            ->title($record->is_active ? 'User activated' : 'User deactivated')
+                            ->title($record->is_active ? 'Pengguna diaktifkan' : 'Pengguna dinonaktifkan')
                             ->success()
                             ->send();
                     }),
@@ -100,16 +100,16 @@ class UsersTable
                                 ->get();
 
                             $headers = [
-                                'Name',
+                                'Nama',
                                 'Email',
                                 'Username',
-                                'Role',
+                                'Peran',
                                 'Status',
                             ];
 
                             $rows = $records->map(function ($record): array {
                                 $role = Str::ucfirst((string) $record->getRoleNames()->first());
-                                $status = $record->is_active ? 'Active' : 'Inactive';
+                                $status = $record->is_active ? 'Aktif' : 'Tidak Aktif';
 
                                 return [
                                     $record->name,
@@ -123,7 +123,7 @@ class UsersTable
                             $timestamp = now()->format('Ymd-His');
 
                             $pdf = Pdf::loadView('exports.table', [
-                                'title' => 'Users',
+                                'title' => 'Pengguna',
                                 'headers' => $headers,
                                 'rows' => $rows,
                             ])->setPaper('a4', 'landscape');
@@ -133,7 +133,7 @@ class UsersTable
                             }, "users-{$timestamp}.pdf");
                         }),
                 ])
-                    ->label('Export')
+                    ->label('Ekspor')
                     ->icon('heroicon-o-arrow-down-tray')
                     ->color('gray')
                     ->button(),

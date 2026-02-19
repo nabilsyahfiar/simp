@@ -25,7 +25,9 @@ class StatusAuditLogResource extends Resource
 
     protected static string | UnitEnum | null $navigationGroup = 'Audit';
 
-    protected static ?string $navigationLabel = 'Status Audit Logs';
+    protected static ?string $navigationLabel = 'Log Audit Status';
+    protected static ?string $modelLabel = 'Log Audit Status';
+    protected static ?string $pluralModelLabel = 'Log Audit Status';
 
     protected static ?string $recordTitleAttribute = 'changed_at';
 

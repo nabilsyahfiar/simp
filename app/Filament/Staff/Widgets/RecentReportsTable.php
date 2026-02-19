@@ -11,7 +11,7 @@ class RecentReportsTable extends BaseWidget
 {
     protected static ?int $sort = 2;
 
-    protected static ?string $heading = 'Recent Reports';
+    protected static ?string $heading = 'Laporan Terbaru';
 
     protected int | string | array $columnSpan = 'full';
 
@@ -26,23 +26,23 @@ class RecentReportsTable extends BaseWidget
             )
             ->columns([
                 TextColumn::make('report_date')
-                    ->label('Report date')
+                    ->label('Tanggal Laporan')
                     ->dateTime('d M Y H:i')
                     ->sortable(),
                 TextColumn::make('unit.project.name')
-                    ->label('Project'),
+                    ->label('Proyek'),
                 TextColumn::make('unit.unit_code')
                     ->label('Unit'),
                 TextColumn::make('foreman.name')
-                    ->label('Foreman'),
+                    ->label('Mandor'),
                 TextColumn::make('reported_percent')
-                    ->label('Progress')
+                    ->label('Progres')
                     ->formatStateUsing(fn ($state) => ($state ?? 0) . '%')
                     ->sortable(),
                 TextColumn::make('status')
                     ->badge()
-                    ->state(fn (ProgressReport $record): string => $record->status === 'verified' ? 'Verified' : 'Pending')
-                    ->color(fn (string $state): string => $state === 'Verified' ? 'success' : 'warning'),
+                    ->state(fn (ProgressReport $record): string => $record->status === 'verified' ? 'Terverifikasi' : 'Menunggu Verifikasi')
+                    ->color(fn (string $state): string => $state === 'Terverifikasi' ? 'success' : 'warning'),
             ])
             ->paginated(false);
     }

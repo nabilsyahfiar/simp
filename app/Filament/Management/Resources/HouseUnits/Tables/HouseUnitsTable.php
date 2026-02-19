@@ -18,14 +18,15 @@ class HouseUnitsTable
         return $table
             ->columns([
                 TextColumn::make('unit_code')
+                    ->label('Kode Unit')
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('project.name')
-                    ->label('Project')
+                    ->label('Proyek')
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('assignedForeman.name')
-                    ->label('Foreman')
+                    ->label('Mandor')
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('official_status')
@@ -35,28 +36,28 @@ class HouseUnitsTable
                         $percent = $record->official_progress_percent ?? 0;
 
                         if ($percent <= 0) {
-                            return 'Not started';
+                            return 'Belum Mulai';
                         }
 
                         if ($percent >= 100) {
-                            return 'Completed';
+                            return 'Selesai';
                         }
 
-                        return 'In progress';
+                        return 'Dalam Proses';
                     })
                     ->sortable(),
                 TextColumn::make('official_progress_percent')
-                    ->label('Progress')
+                    ->label('Progres')
                     ->formatStateUsing(fn ($state) => ($state ?? 0) . '%')
                     ->sortable(),
             ])
             ->filters([
                 SelectFilter::make('project_id')
-                    ->label('Project')
+                    ->label('Proyek')
                     ->relationship('project', 'name')
                     ->native(false),
                 SelectFilter::make('assigned_foreman_id')
-                    ->label('Foreman')
+                    ->label('Mandor')
                     ->relationship('assignedForeman', 'name', modifyQueryUsing: fn ($query) => $query->role('foreman'))
                     ->native(false),
             ])
@@ -82,17 +83,17 @@ class HouseUnitsTable
                                 ->with(['project', 'assignedForeman'])
                                 ->get();
 
-                            $headers = ['Unit', 'Project', 'Foreman', 'Status', 'Progress'];
+                            $headers = ['Unit', 'Proyek', 'Mandor', 'Status', 'Progres'];
 
                             $rows = $records->map(function ($record): array {
                                 $percent = $record->official_progress_percent ?? 0;
 
                                 if ($percent <= 0) {
-                                    $status = 'Not started';
+                                    $status = 'Belum Mulai';
                                 } elseif ($percent >= 100) {
-                                    $status = 'Completed';
+                                    $status = 'Selesai';
                                 } else {
-                                    $status = 'In progress';
+                                    $status = 'Dalam Proses';
                                 }
 
                                 return [
@@ -107,7 +108,7 @@ class HouseUnitsTable
                             $timestamp = now()->format('Ymd-His');
 
                             $pdf = Pdf::loadView('exports.table', [
-                                'title' => 'House Units',
+                                'title' => 'Unit Rumah',
                                 'headers' => $headers,
                                 'rows' => $rows,
                             ])->setPaper('a4', 'landscape');
@@ -117,11 +118,10 @@ class HouseUnitsTable
                             }, "house-units-{$timestamp}.pdf");
                         }),
                 ])
-                    ->label('Export')
+                    ->label('Ekspor')
                     ->icon('heroicon-o-arrow-down-tray')
                     ->color('gray')
                     ->button(),
             ]);
     }
 }
-

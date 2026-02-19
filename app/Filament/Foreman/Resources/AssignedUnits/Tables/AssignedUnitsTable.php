@@ -14,11 +14,11 @@ class AssignedUnitsTable
         return $table
             ->columns([
                 TextColumn::make('unit_code')
-                    ->label('Unit')
+                    ->label('Kode Unit')
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('project.name')
-                    ->label('Project')
+                    ->label('Proyek')
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('official_status')
@@ -28,23 +28,23 @@ class AssignedUnitsTable
                         $percent = $record->official_progress_percent ?? 0;
 
                         if ($percent <= 0) {
-                            return 'Not started';
+                            return 'Belum Mulai';
                         }
 
                         if ($percent >= 100) {
-                            return 'Completed';
+                            return 'Selesai';
                         }
 
-                        return 'In progress';
+                        return 'Dalam Proses';
                     }),
                 TextColumn::make('official_progress_percent')
-                    ->label('Progress')
+                    ->label('Progres')
                     ->formatStateUsing(fn ($state) => ($state ?? 0) . '%')
                     ->sortable(),
             ])
             ->recordActions([
                 Action::make('createReport')
-                    ->label('Create Report')
+                    ->label('Buat Laporan')
                     ->icon('heroicon-m-plus-circle')
                     ->color('info')
                     ->url(fn ($record) => ProgressReportResource::getUrl('create', ['unit_id' => $record->id])),

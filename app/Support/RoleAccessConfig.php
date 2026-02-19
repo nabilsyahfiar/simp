@@ -13,92 +13,92 @@ class RoleAccessConfig
             'admin' => [
                 'label' => 'Admin',
                 'menus' => [
-                    'users' => 'Users',
-                    'projects' => 'Projects',
-                    'house_units' => 'House Units',
-                    'progress_reports' => 'Progress Reports',
-                    'status_audit_logs' => 'Status Audit Logs',
+                    'users' => 'Pengguna',
+                    'projects' => 'Proyek',
+                    'house_units' => 'Unit Rumah',
+                    'progress_reports' => 'Laporan Progres',
+                    'status_audit_logs' => 'Log Audit Status',
                 ],
                 'permissions' => [
                     'users' => [
-                        'label' => 'Users',
+                        'label' => 'Pengguna',
                         'actions' => ['view' => true, 'create' => true, 'edit' => true, 'delete' => false],
                     ],
                     'projects' => [
-                        'label' => 'Projects',
+                        'label' => 'Proyek',
                         'actions' => ['view' => true, 'create' => true, 'edit' => true, 'delete' => false],
                     ],
                     'house_units' => [
-                        'label' => 'House Units',
+                        'label' => 'Unit Rumah',
                         'actions' => ['view' => true, 'create' => true, 'edit' => true, 'delete' => false],
                     ],
                     'progress_reports' => [
-                        'label' => 'Progress Reports',
+                        'label' => 'Laporan Progres',
                         'actions' => ['view' => true, 'create' => false, 'edit' => false, 'delete' => false],
                     ],
                     'status_audit_logs' => [
-                        'label' => 'Status Audit Logs',
+                        'label' => 'Log Audit Status',
                         'actions' => ['view' => true, 'create' => false, 'edit' => false, 'delete' => false],
                     ],
                 ],
             ],
             'staff' => [
-                'label' => 'Staff',
+                'label' => 'Staf',
                 'menus' => [
-                    'projects' => 'Projects',
-                    'house_units' => 'House Units',
-                    'progress_reports' => 'Progress Reports',
+                    'projects' => 'Proyek',
+                    'house_units' => 'Unit Rumah',
+                    'progress_reports' => 'Laporan Progres',
                 ],
                 'permissions' => [
                     'projects' => [
-                        'label' => 'Projects',
+                        'label' => 'Proyek',
                         'actions' => ['view' => true, 'create' => true, 'edit' => true, 'delete' => false],
                     ],
                     'house_units' => [
-                        'label' => 'House Units',
+                        'label' => 'Unit Rumah',
                         'actions' => ['view' => true, 'create' => true, 'edit' => true, 'delete' => false],
                     ],
                     'progress_reports' => [
-                        'label' => 'Progress Reports',
+                        'label' => 'Laporan Progres',
                         'actions' => ['view' => true, 'create' => false, 'edit' => false, 'delete' => false, 'verify' => true],
                     ],
                 ],
             ],
             'foreman' => [
-                'label' => 'Foreman',
+                'label' => 'Mandor',
                 'menus' => [
-                    'assigned_units' => 'Assigned Units',
-                    'progress_reports' => 'Progress Reports',
+                    'assigned_units' => 'Unit Tugas',
+                    'progress_reports' => 'Laporan Progres',
                 ],
                 'permissions' => [
                     'assigned_units' => [
-                        'label' => 'Assigned Units',
+                        'label' => 'Unit Tugas',
                         'actions' => ['view' => true, 'create' => false, 'edit' => false, 'delete' => false],
                     ],
                     'progress_reports' => [
-                        'label' => 'Progress Reports',
+                        'label' => 'Laporan Progres',
                         'actions' => ['view' => true, 'create' => true, 'edit' => true, 'delete' => false],
                     ],
                 ],
             ],
             'management' => [
-                'label' => 'Management',
+                'label' => 'Manajemen',
                 'menus' => [
-                    'projects' => 'Projects',
-                    'house_units' => 'House Units',
-                    'progress_reports' => 'Progress Reports',
+                    'projects' => 'Proyek',
+                    'house_units' => 'Unit Rumah',
+                    'progress_reports' => 'Laporan Progres',
                 ],
                 'permissions' => [
                     'projects' => [
-                        'label' => 'Projects',
+                        'label' => 'Proyek',
                         'actions' => ['view' => true, 'create' => false, 'edit' => false, 'delete' => false],
                     ],
                     'house_units' => [
-                        'label' => 'House Units',
+                        'label' => 'Unit Rumah',
                         'actions' => ['view' => true, 'create' => false, 'edit' => false, 'delete' => false],
                     ],
                     'progress_reports' => [
-                        'label' => 'Progress Reports',
+                        'label' => 'Laporan Progres',
                         'actions' => ['view' => true, 'create' => false, 'edit' => false, 'delete' => false],
                     ],
                 ],

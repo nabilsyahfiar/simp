@@ -32,7 +32,7 @@ class ViewStatusAuditLog extends ViewRecord
         return match ($status) {
             'belum_mulai' => 'Not started',
             'dalam_proses' => 'In progress',
-            'selesai' => 'Completed',
+            'selesai' => 'Selesai',
             default => ucfirst((string) $status),
         };
     }

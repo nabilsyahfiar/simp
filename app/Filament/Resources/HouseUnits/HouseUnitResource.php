@@ -22,9 +22,11 @@ class HouseUnitResource extends Resource
 {
     protected static ?string $model = HouseUnit::class;
 
-    protected static string | UnitEnum | null $navigationGroup = 'Master Data';
+    protected static string | UnitEnum | null $navigationGroup = 'Data Master';
 
-    protected static ?string $navigationLabel = 'House Units';
+    protected static ?string $navigationLabel = 'Unit Rumah';
+    protected static ?string $modelLabel = 'Unit Rumah';
+    protected static ?string $pluralModelLabel = 'Unit Rumah';
 
     protected static ?string $recordTitleAttribute = 'unit_code';
 

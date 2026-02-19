@@ -15,44 +15,44 @@ class ProgressReportForm
     {
         return $schema
             ->components([
-                Section::make('Report Details')
+                Section::make('Detail Laporan')
                     ->schema([
                         TextInput::make('project_name')
-                            ->label('Project')
+                            ->label('Proyek')
                             ->dehydrated(false),
                         TextInput::make('unit_code')
-                            ->label('Unit')
+                            ->label('Kode Unit')
                             ->dehydrated(false),
                         TextInput::make('foreman_name')
-                            ->label('Foreman')
+                            ->label('Mandor')
                             ->dehydrated(false),
                         TextInput::make('status_label')
                             ->label('Status')
                             ->dehydrated(false),
                         TextInput::make('verified_by_name')
-                            ->label('Verified by')
+                            ->label('Diverifikasi oleh')
                             ->dehydrated(false)
                             ->placeholder('-'),
                         DateTimePicker::make('verified_at')
-                            ->label('Verified at')
+                            ->label('Tanggal Verifikasi')
                             ->timezone('Asia/Jakarta')
                             ->displayFormat('d M Y H:i')
                             ->native(false),
                         TextInput::make('reported_percent')
-                            ->label('Reported progress')
+                            ->label('Progres Dilaporkan')
                             ->suffix('%'),
                         DateTimePicker::make('report_date')
-                            ->label('Report date')
+                            ->label('Tanggal Laporan')
                             ->timezone('Asia/Jakarta')
                             ->displayFormat('d M Y H:i')
                             ->native(false),
                         Textarea::make('description')
-                            ->label('Description')
+                            ->label('Deskripsi')
                             ->columnSpanFull(),
                     ])
                     ->columns(2)
                     ->columnSpanFull(),
-                Section::make('Photos')
+                Section::make('Foto')
                     ->schema([
                         ViewField::make('photos_preview')
                             ->view('filament.resources.progress-reports.components.photos')

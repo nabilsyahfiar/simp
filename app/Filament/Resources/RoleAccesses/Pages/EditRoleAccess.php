@@ -19,7 +19,7 @@ class EditRoleAccess extends EditRecord
         $role = (string) ($this->record?->name ?? '');
         $label = RoleAccessConfig::roleLabels()[$role] ?? ucfirst($role);
 
-        return "Edit Role {$label}";
+        return "Ubah Peran {$label}";
     }
 
     protected function mutateFormDataBeforeFill(array $data): array
@@ -51,9 +51,9 @@ class EditRoleAccess extends EditRecord
     {
         return [
             $this->getSaveFormAction()
-                ->label('Save changes'),
+                ->label('Simpan perubahan'),
             Action::make('cancel')
-                ->label('Cancel')
+                ->label('Batal')
                 ->url(static::getResource()::getUrl('index'))
                 ->color('gray'),
         ];

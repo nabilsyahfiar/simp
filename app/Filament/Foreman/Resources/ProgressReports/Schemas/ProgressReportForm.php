@@ -30,14 +30,14 @@ class ProgressReportForm
                     ->required()
                     ->native(false),
                 TextInput::make('reported_percent')
-                    ->label('Reported progress')
+                    ->label('Progres Dilaporkan')
                     ->numeric()
                     ->minValue(0)
                     ->maxValue(100)
                     ->suffix('%')
                     ->required(),
                 DateTimePicker::make('report_date')
-                    ->label('Report date')
+                    ->label('Tanggal Laporan')
                     ->default(now('Asia/Jakarta'))
                     ->timezone('Asia/Jakarta')
                     ->disabled()
@@ -45,12 +45,12 @@ class ProgressReportForm
                     ->native(false)
                     ->required(),
                 Textarea::make('description')
-                    ->label('Description')
+                    ->label('Deskripsi')
                     ->rows(4)
                     ->required()
                     ->columnSpanFull(),
                 FileUpload::make('photos')
-                    ->label('Photos')
+                    ->label('Foto')
                     ->disk('public')
                     ->directory('progress-reports')
                     ->image()

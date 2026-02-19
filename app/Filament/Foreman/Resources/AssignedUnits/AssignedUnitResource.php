@@ -17,9 +17,11 @@ class AssignedUnitResource extends Resource
 {
     protected static ?string $model = HouseUnit::class;
 
-    protected static string | UnitEnum | null $navigationGroup = 'Work';
+    protected static string | UnitEnum | null $navigationGroup = 'Pekerjaan';
 
-    protected static ?string $navigationLabel = 'Assigned Units';
+    protected static ?string $navigationLabel = 'Unit Tugas';
+    protected static ?string $modelLabel = 'Unit Tugas';
+    protected static ?string $pluralModelLabel = 'Unit Tugas';
 
     protected static ?int $navigationSort = 1;
 

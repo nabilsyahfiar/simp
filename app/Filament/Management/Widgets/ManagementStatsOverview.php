@@ -22,25 +22,25 @@ class ManagementStatsOverview extends StatsOverviewWidget
         $verifiedReports = ProgressReport::where('status', 'verified')->count();
 
         return [
-            Stat::make('Total Projects', $projects)
-                ->description('All projects in the system')
+            Stat::make('Total Proyek', $projects)
+                ->description('Proyek Terdaftar')
                 ->descriptionColor('info')
                 ->descriptionIcon('heroicon-m-building-office-2', IconPosition::After),
-            Stat::make('Total House Units', $units)
-                ->description('All housing units')
+            Stat::make('Total Unit Rumah', $units)
+                ->description('Unit Terdaftar')
                 ->descriptionColor('warning')
                 ->descriptionIcon('heroicon-m-home-modern', IconPosition::After),
-            Stat::make('Overall Progress', number_format($averageProgress, 0) . '%')
-                ->description('Average official progress')
+            Stat::make('Progres Keseluruhan', number_format($averageProgress, 0) . '%')
+                ->description('Progres Rata-rata')
                 ->descriptionColor('primary')
                 ->descriptionIcon('heroicon-m-chart-bar', IconPosition::After),
-            Stat::make('Pending Reports', $pendingReports)
-                ->description('Reports waiting verification')
+            Stat::make('Laporan Menunggu Verifikasi', $pendingReports)
+                ->description('Perlu Verifikasi')
                 ->descriptionColor($pendingReports > 0 ? 'warning' : 'success')
                 ->descriptionIcon('heroicon-m-clock', IconPosition::After)
                 ->color($pendingReports > 0 ? 'warning' : 'success'),
-            Stat::make('Verified Reports', $verifiedReports)
-                ->description('Reports verified by staff')
+            Stat::make('Laporan Terverifikasi', $verifiedReports)
+                ->description('Sudah Diverifikasi')
                 ->descriptionColor('success')
                 ->descriptionIcon('heroicon-m-check-badge', IconPosition::After)
                 ->color('success'),

@@ -21,15 +21,15 @@ class StatusAuditLogsExport implements FromCollection, WithHeadings, WithMapping
     public function headings(): array
     {
         return [
-            'Changed at',
-            'Project',
+            'Waktu Perubahan',
+            'Proyek',
             'Unit',
-            'Changed by',
-            'Old status',
-            'New status',
-            'Old progress',
-            'New progress',
-            'Note',
+            'Diubah oleh',
+            'Status Lama',
+            'Status Baru',
+            'Progres Lama',
+            'Progres Baru',
+            'Catatan',
         ];
     }
 
@@ -53,7 +53,7 @@ class StatusAuditLogsExport implements FromCollection, WithHeadings, WithMapping
         return match ($status) {
             'belum_mulai' => 'Not started',
             'dalam_proses' => 'In progress',
-            'selesai' => 'Completed',
+            'selesai' => 'Selesai',
             default => ucfirst((string) $status),
         };
     }

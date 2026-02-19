@@ -19,11 +19,11 @@ class StatusAuditLogsTable
         return $table
             ->columns([
                 TextColumn::make('changed_at')
-                    ->label('Changed at')
+                    ->label('Waktu Perubahan')
                     ->dateTime('d M Y H:i')
                     ->sortable(),
                 TextColumn::make('unit.project.name')
-                    ->label('Project')
+                    ->label('Proyek')
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('unit.unit_code')
@@ -31,29 +31,29 @@ class StatusAuditLogsTable
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('changedBy.name')
-                    ->label('Changed by')
+                    ->label('Diubah oleh')
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('old_status')
-                    ->label('Old status')
+                    ->label('Status Lama')
                     ->badge()
                     ->state(fn ($record) => self::mapStatus($record->old_status))
                     ->sortable(),
                 TextColumn::make('new_status')
-                    ->label('New status')
+                    ->label('Status Baru')
                     ->badge()
                     ->state(fn ($record) => self::mapStatus($record->new_status))
                     ->sortable(),
                 TextColumn::make('old_percent')
-                    ->label('Old progress')
+                    ->label('Progres Lama')
                     ->formatStateUsing(fn ($state) => ($state ?? 0) . '%')
                     ->sortable(),
                 TextColumn::make('new_percent')
-                    ->label('New progress')
+                    ->label('Progres Baru')
                     ->formatStateUsing(fn ($state) => ($state ?? 0) . '%')
                     ->sortable(),
                 TextColumn::make('note')
-                    ->label('Note')
+                    ->label('Catatan')
                     ->limit(40),
             ])
             ->filters([
@@ -62,15 +62,15 @@ class StatusAuditLogsTable
                     ->relationship('unit', 'unit_code')
                     ->native(false),
                 SelectFilter::make('changed_by')
-                    ->label('Changed by')
+                    ->label('Diubah oleh')
                     ->relationship('changedBy', 'name')
                     ->native(false),
                 SelectFilter::make('new_status')
-                    ->label('New status')
+                    ->label('Status Baru')
                     ->options([
                         'belum_mulai' => 'Not started',
                         'dalam_proses' => 'In progress',
-                        'selesai' => 'Completed',
+                        'selesai' => 'Selesai',
                     ])
                     ->native(false),
             ])
@@ -99,15 +99,15 @@ class StatusAuditLogsTable
                                 ->get();
 
                             $headers = [
-                                'Changed at',
-                                'Project',
+                                'Waktu Perubahan',
+                                'Proyek',
                                 'Unit',
-                                'Changed by',
-                                'Old status',
-                                'New status',
-                                'Old progress',
-                                'New progress',
-                                'Note',
+                                'Diubah oleh',
+                                'Status Lama',
+                                'Status Baru',
+                                'Progres Lama',
+                                'Progres Baru',
+                                'Catatan',
                             ];
 
                             $rows = $records->map(function ($record): array {
@@ -127,7 +127,7 @@ class StatusAuditLogsTable
                             $timestamp = now()->format('Ymd-His');
 
                             $pdf = Pdf::loadView('exports.table', [
-                                'title' => 'Status Audit Logs',
+                                'title' => 'Log Audit Status',
                                 'headers' => $headers,
                                 'rows' => $rows,
                             ])->setPaper('a4', 'landscape');
@@ -137,7 +137,7 @@ class StatusAuditLogsTable
                             }, "status-audit-logs-{$timestamp}.pdf");
                         }),
                 ])
-                    ->label('Export')
+                    ->label('Ekspor')
                     ->icon('heroicon-o-arrow-down-tray')
                     ->color('gray')
                     ->button(),
@@ -150,7 +150,7 @@ class StatusAuditLogsTable
         return match ($status) {
             'belum_mulai' => 'Not started',
             'dalam_proses' => 'In progress',
-            'selesai' => 'Completed',
+            'selesai' => 'Selesai',
             default => ucfirst((string) $status),
         };
     }
