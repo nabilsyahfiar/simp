@@ -1,4 +1,24 @@
 <style>
+    .fi-simple-header {
+        text-align: center;
+        align-items: center;
+    }
+
+    .fi-simple-header .fi-logo {
+        justify-content: center;
+        text-align: center;
+        width: 100%;
+        font-size: 1.75rem;
+        line-height: 1.2;
+        max-height: none;
+    }
+
+    .fi-simple-header-subheading {
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: rgb(156 163 175);
+    }
+
     @media (max-width: 640px) {
         .fi-simple-main-ctn {
             align-items: center;
@@ -18,18 +38,13 @@
             gap: 1rem;
         }
 
-        .fi-simple-header {
-            text-align: center;
-            align-items: center;
-        }
-
         .fi-simple-header .fi-logo {
             margin-bottom: 0.25rem;
             max-height: none;
             overflow: visible;
             white-space: normal;
             line-height: 1.2;
-            font-size: 1.5rem;
+            font-size: 1.875rem;
             text-wrap: balance;
             justify-content: center;
             text-align: center;
