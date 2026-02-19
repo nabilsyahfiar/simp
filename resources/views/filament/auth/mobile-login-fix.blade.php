@@ -1,22 +1,31 @@
 <style>
     .fi-simple-header {
-        text-align: center;
-        align-items: center;
+        text-align: center !important;
+        align-items: center !important;
     }
 
     .fi-simple-header .fi-logo {
-        justify-content: center;
-        text-align: center;
-        width: 100%;
-        font-size: 1.75rem;
-        line-height: 1.2;
-        max-height: none;
+        justify-content: center !important;
+        text-align: center !important;
+        width: 100% !important;
+        margin-inline: auto !important;
+        font-size: 1.75rem !important;
+        line-height: 1.2 !important;
+        max-height: none !important;
+    }
+
+    .fi-simple-header-heading {
+        font-size: 1.1rem !important;
+        font-weight: 500 !important;
+        color: rgb(209 213 219) !important;
+        text-align: center !important;
     }
 
     .fi-simple-header-subheading {
-        font-size: 0.9rem;
-        font-weight: 500;
-        color: rgb(156 163 175);
+        font-size: 0.85rem !important;
+        font-weight: 500 !important;
+        color: rgb(156 163 175) !important;
+        text-align: center !important;
     }
 
     @media (max-width: 640px) {
@@ -44,7 +53,7 @@
             overflow: visible;
             white-space: normal;
             line-height: 1.2;
-            font-size: 1.875rem;
+            font-size: 1.875rem !important;
             text-wrap: balance;
             justify-content: center;
             text-align: center;
