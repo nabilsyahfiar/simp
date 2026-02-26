@@ -2,6 +2,10 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Management\Widgets\ManagementProgressDistributionChart;
+use App\Filament\Management\Widgets\ManagementProjectProgressChart;
+use App\Filament\Management\Widgets\ManagementStatsOverview;
+use App\Filament\Management\Widgets\ManagementUnitProgressChart;
 use App\Http\Middleware\FilamentAuthenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -37,6 +41,10 @@ class ManagementPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Management/Widgets'), for: 'App\Filament\Management\Widgets')
             ->widgets([
+                ManagementStatsOverview::class,
+                ManagementProjectProgressChart::class,
+                ManagementUnitProgressChart::class,
+                ManagementProgressDistributionChart::class,
                 AccountWidget::class,
                 FilamentInfoWidget::class,
             ])
