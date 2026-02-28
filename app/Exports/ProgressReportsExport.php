@@ -27,7 +27,8 @@ class ProgressReportsExport implements FromCollection, WithHeadings, WithMapping
             'Mandor',
             'Progres',
             'Status',
-            'Foto',
+            'Jumlah Foto',
+            'Ada Foto',
         ];
     }
 
@@ -42,7 +43,8 @@ class ProgressReportsExport implements FromCollection, WithHeadings, WithMapping
             $record->foreman?->name,
             ($record->reported_percent ?? 0) . '%',
             $status,
-            $record->photos_count ?? 0,
+            (int) ($record->photos_count ?? 0),
+            ((int) ($record->photos_count ?? 0) > 0) ? 'Ya' : 'Tidak',
         ];
     }
 }

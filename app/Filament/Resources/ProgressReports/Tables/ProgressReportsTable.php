@@ -4,6 +4,7 @@ namespace App\Filament\Resources\ProgressReports\Tables;
 
 use App\Exports\ProgressReportsExport;
 use App\Models\Project;
+use App\Support\ProgressReportExportFormatter;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
@@ -113,11 +114,13 @@ class ProgressReportsTable
                                 'Mandor',
                                 'Progres',
                                 'Status',
-                                'Foto',
+                                'Jumlah Foto',
+                                'Ada Foto',
                             ];
 
                             $rows = $records->map(function ($record): array {
-                                $status = $record->status === 'verified' ? 'Terverifikasi' : 'Menunggu Verifikasi';
+                                $status = ProgressReportExportFormatter::statusLabel($record->status);
+                                $photoMeta = ProgressReportExportFormatter::photoSummary($record);
 
                                 return [
                                     $record->report_date?->format('Y-m-d H:i'),
@@ -126,7 +129,8 @@ class ProgressReportsTable
                                     $record->foreman?->name,
                                     ($record->reported_percent ?? 0) . '%',
                                     $status,
-                                    $record->photos_count ?? 0,
+                                    $photoMeta['count'],
+                                    $photoMeta['has_photo'],
                                 ];
                             })->all();
 
@@ -142,6 +146,43 @@ class ProgressReportsTable
                                 echo $pdf->output();
                             }, "progress-reports-{$timestamp}.pdf");
                         }),
+                    Action::make('export_pdf_with_thumbnail')
+                        ->label('PDF + Thumbnail')
+                        ->icon('heroicon-m-photo')
+                        ->action(function ($livewire) {
+                            $records = $livewire->getTableQueryForExport()
+                                ->with(['unit.project', 'foreman', 'photos'])
+                                ->withCount('photos')
+                                ->get();
+
+                            $rows = $records->map(function ($record): array {
+                                $status = ProgressReportExportFormatter::statusLabel($record->status);
+                                $photoMeta = ProgressReportExportFormatter::photoSummary($record);
+
+                                return [
+                                    'report_date' => $record->report_date?->format('Y-m-d H:i'),
+                                    'project' => $record->unit?->project?->name,
+                                    'unit' => $record->unit?->unit_code,
+                                    'foreman' => $record->foreman?->name,
+                                    'progress' => ($record->reported_percent ?? 0) . '%',
+                                    'status' => $status,
+                                    'photos_count' => $photoMeta['count'],
+                                    'has_photo' => $photoMeta['has_photo'],
+                                    'thumbnail_data_uri' => ProgressReportExportFormatter::thumbnailDataUri($record),
+                                ];
+                            })->all();
+
+                            $timestamp = now()->format('Ymd-His');
+
+                            $pdf = Pdf::loadView('exports.progress-reports-thumbnails', [
+                                'title' => 'Laporan Progres (Dengan Thumbnail)',
+                                'rows' => $rows,
+                            ])->setPaper('a4', 'landscape');
+
+                            return response()->streamDownload(function () use ($pdf): void {
+                                echo $pdf->output();
+                            }, "progress-reports-thumbnails-{$timestamp}.pdf");
+                        }),
                 ])
                     ->label('Ekspor')
                     ->icon('heroicon-o-arrow-down-tray')
@@ -151,8 +192,6 @@ class ProgressReportsTable
             ->defaultSort('report_date', 'desc');
     }
 }
-
-
 
 
 

@@ -79,6 +79,7 @@ class ProjectsTable
 
                             $headers = [
                                 'Nama',
+                                'Kode',
                                 'Lokasi',
                                 'Status',
                                 'Progres',
@@ -93,6 +94,7 @@ class ProjectsTable
 
                                 return [
                                     $record->name,
+                                    $record->code,
                                     $record->location,
                                     $status,
                                     $progress,
