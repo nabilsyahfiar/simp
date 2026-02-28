@@ -12,7 +12,8 @@
         font-size: 1.4rem !important;
         line-height: 1.2 !important;
         max-height: none !important;
-        text-wrap: nowrap !important;
+        white-space: normal !important;
+        overflow-wrap: anywhere !important;
     }
 
     .fi-simple-header-heading {
@@ -52,13 +53,15 @@
             margin-bottom: 0.25rem;
             max-height: none;
             overflow: visible;
-            white-space: nowrap;
+            white-space: normal;
             line-height: 1.2;
             font-size: 1.25rem !important;
-            text-wrap: nowrap;
+            overflow-wrap: anywhere;
             justify-content: center;
             text-align: center;
             width: 100%;
+            padding-inline: 0.5rem;
+            box-sizing: border-box;
         }
 
         .fi-simple-header .fi-logo img,

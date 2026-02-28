@@ -4,6 +4,7 @@ namespace App\Http\Responses;
 
 use Filament\Auth\Http\Responses\Contracts\LoginResponse as LoginResponseContract;
 use Filament\Facades\Filament;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 use Livewire\Features\SupportRedirects\Redirector;
 
@@ -28,6 +29,10 @@ class FilamentLoginResponse implements LoginResponseContract
         if ($user?->hasRole('management')) {
             return redirect()->to(Filament::getPanel('management')->getUrl());
         }
+
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
         return redirect()->to(url('/login'));
     }
