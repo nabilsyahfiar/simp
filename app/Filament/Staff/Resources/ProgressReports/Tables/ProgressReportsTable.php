@@ -6,6 +6,7 @@ use App\Exports\ProgressReportsExport;
 use App\Models\ProgressReport;
 use App\Models\Project;
 use App\Support\RolePermissionAccess;
+use App\Support\ProgressReportVerifier;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
@@ -40,7 +41,7 @@ class ProgressReportsTable
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('reported_percent')
-                    ->label('Progres Dilaporkan')
+                    ->label('Progres')
                     ->formatStateUsing(fn ($state) => ($state ?? 0) . '%')
                     ->sortable(),
                 TextColumn::make('status')
@@ -92,31 +93,20 @@ class ProgressReportsTable
                     ->disabled(fn (ProgressReport $record): bool => $record->status !== 'pending'
                         || ! RolePermissionAccess::canAccess('staff', 'progress_reports', 'verify'))
                     ->action(function (ProgressReport $record): void {
-                        $record->refresh();
+                        $isVerified = ProgressReportVerifier::verifyByStaff($record, (int) auth()->id());
 
-                        if ($record->status !== 'pending') {
-                            $verifiedBy = $record->verifiedBy?->name ?? 'another staff';
+                        if (! $isVerified) {
+                            $record->refresh()->loadMissing('verifiedBy');
+                            $verifiedBy = $record->verifiedBy?->name ?? 'staf lain';
                             $verifiedAt = $record->verified_at?->timezone('Asia/Jakarta')->format('d M Y H:i') ?? '-';
 
                             Notification::make()
                                 ->title('Laporan sudah diverifikasi')
-                                ->body("This report was already verified by {$verifiedBy} at {$verifiedAt}.")
+                                ->body("Laporan ini sudah diverifikasi oleh {$verifiedBy} pada {$verifiedAt}.")
                                 ->warning()
                                 ->send();
 
                             return;
-                        }
-
-                        $record->update([
-                            'status' => 'verified',
-                            'verified_by' => auth()->id(),
-                            'verified_at' => now('Asia/Jakarta'),
-                        ]);
-
-                        if ($record->unit) {
-                            $record->unit->update([
-                                'official_progress_percent' => (int) $record->reported_percent,
-                            ]);
                         }
 
                         Notification::make()
@@ -193,4 +183,3 @@ class ProgressReportsTable
             ->defaultSort('report_date', 'desc');
     }
 }
-
