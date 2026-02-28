@@ -19,8 +19,5 @@
     "Edit": "Ubah",
     "Create": "Buat",
     "View": "Lihat",
-    "Are you sure you want to delete this?": "Apakah Anda yakin ingin menghapus ini?",
-    "validation.unique": ":attribute sudah digunakan.",
-    "validation.required": ":attribute wajib diisi.",
-    "filament-forms::components.select.no_options_message": "Tidak ada opsi tersedia."
+    "Are you sure you want to delete this?": "Apakah Anda yakin ingin menghapus ini?"
 }
