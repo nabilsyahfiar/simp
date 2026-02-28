@@ -3,7 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class HouseUnit extends Model
 {
@@ -85,15 +87,20 @@ class HouseUnit extends Model
         });
     }
 
-    public static function generateNextUnitCodeForProject(int $projectId): string
+    public static function generateNextUnitCodeForProject(int $projectId, bool $lockForUpdate = false): string
     {
         $project = Project::query()->findOrFail($projectId);
 
         $baseCode = strtoupper((string) ($project->code ?: 'PRJ' . $project->id));
         $baseCode = preg_replace('/[^A-Z0-9]/', '', $baseCode) ?: ('PRJ' . $project->id);
 
-        $maxNumber = static::query()
-            ->where('project_id', $projectId)
+        $query = static::query()->where('project_id', $projectId);
+
+        if ($lockForUpdate) {
+            $query->lockForUpdate();
+        }
+
+        $maxNumber = $query
             ->pluck('unit_code')
             ->map(function (string $code) use ($baseCode): int {
                 if (! preg_match('/^' . preg_quote($baseCode, '/') . '-(\d+)$/', $code, $matches)) {
@@ -105,5 +112,58 @@ class HouseUnit extends Model
             ->max() ?? 0;
 
         return sprintf('%s-%04d', $baseCode, $maxNumber + 1);
+    }
+
+    public static function createWithAutoUnitCode(array $attributes, int $maxAttempts = 5): self
+    {
+        $projectId = (int) ($attributes['project_id'] ?? 0);
+        abort_unless($projectId > 0, 422);
+
+        $attempt = 0;
+
+        while (true) {
+            $attempt++;
+
+            try {
+                /** @var self $created */
+                $created = DB::transaction(function () use ($attributes, $projectId): self {
+                    $data = $attributes;
+                    $data['unit_code'] = static::generateNextUnitCodeForProject($projectId, lockForUpdate: true);
+
+                    return static::query()->create($data);
+                }, 3);
+
+                return $created;
+            } catch (QueryException $exception) {
+                if (
+                    $attempt >= $maxAttempts
+                    || ! static::isDuplicateUnitCodeException($exception)
+                ) {
+                    throw $exception;
+                }
+            }
+        }
+    }
+
+    private static function isDuplicateUnitCodeException(QueryException $exception): bool
+    {
+        $driverCode = (int) ($exception->errorInfo[1] ?? 0);
+
+        if ($driverCode === 1062) {
+            $detail = strtolower((string) ($exception->errorInfo[2] ?? ''));
+
+            return str_contains($detail, 'project_id')
+                && str_contains($detail, 'unit_code');
+        }
+
+        $message = strtolower($exception->getMessage());
+
+        return str_contains($message, 'house_units_project_id_unit_code_unique')
+            || (
+                str_contains($message, 'unique constraint failed')
+                && str_contains($message, 'house_units.project_id')
+                && str_contains($message, 'house_units.unit_code')
+            )
+            || (str_contains($message, 'duplicate') && str_contains($message, 'unit_code'));
     }
 }

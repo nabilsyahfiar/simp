@@ -13,6 +13,7 @@ use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
@@ -89,10 +90,10 @@ class HouseUnitsRelationManager extends RelationManager
                 CreateAction::make()
                     ->label('Buat Unit Rumah')
                     ->icon('heroicon-m-plus')
-                    ->mutateFormDataUsing(function (array $data): array {
-                        $data['unit_code'] = HouseUnit::generateNextUnitCodeForProject($this->getOwnerRecord()->id);
+                    ->using(function (array $data): Model {
+                        $data['project_id'] = $this->getOwnerRecord()->id;
 
-                        return $data;
+                        return HouseUnit::createWithAutoUnitCode($data);
                     })
                     ->after(function (CreateAction $action): void {
                         $record = $action->getRecord();

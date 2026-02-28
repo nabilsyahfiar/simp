@@ -7,6 +7,11 @@ use App\Models\RoleMenuSetting;
 class RoleMenuAccess
 {
     /**
+     * @var array<string, bool>
+     */
+    private static array $enabledCache = [];
+
+    /**
      * Default menu map shown in admin toggle table.
      *
      * @return array<string, array<string, string>>
@@ -31,16 +36,27 @@ class RoleMenuAccess
 
     public static function isEnabled(string $role, string $menuKey): bool
     {
+        $cacheKey = "{$role}|{$menuKey}";
+
+        if (array_key_exists($cacheKey, static::$enabledCache)) {
+            return (bool) static::$enabledCache[$cacheKey];
+        }
+
         $setting = RoleMenuSetting::query()
             ->where('role', $role)
             ->where('menu_key', $menuKey)
             ->first();
 
         if (! $setting) {
+            static::$enabledCache[$cacheKey] = true;
+
             return true;
         }
 
-        return (bool) $setting->is_enabled;
+        $enabled = (bool) $setting->is_enabled;
+        static::$enabledCache[$cacheKey] = $enabled;
+
+        return $enabled;
     }
 
     /**
@@ -87,5 +103,14 @@ class RoleMenuAccess
                 ],
             );
         }
+
+        static::clearCacheForRole($role);
+    }
+
+    private static function clearCacheForRole(string $role): void
+    {
+        static::$enabledCache = collect(static::$enabledCache)
+            ->reject(fn ($_value, string $key): bool => str_starts_with($key, "{$role}|"))
+            ->all();
     }
 }

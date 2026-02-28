@@ -5,6 +5,7 @@ namespace App\Filament\Resources\HouseUnits\Pages;
 use App\Filament\Resources\HouseUnits\HouseUnitResource;
 use App\Models\HouseUnit;
 use App\Models\UnitAssignment;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Filament\Resources\Pages\CreateRecord;
 
@@ -19,14 +20,9 @@ class CreateHouseUnit extends CreateRecord
         return static::getResource()::getUrl('index');
     }
 
-    protected function mutateFormDataBeforeCreate(array $data): array
+    protected function handleRecordCreation(array $data): Model
     {
-        $projectId = (int) ($data['project_id'] ?? 0);
-        abort_unless($projectId > 0, 422);
-
-        $data['unit_code'] = HouseUnit::generateNextUnitCodeForProject($projectId);
-
-        return $data;
+        return HouseUnit::createWithAutoUnitCode($data);
     }
 
     protected function afterCreate(): void

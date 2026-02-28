@@ -49,18 +49,27 @@ class ImageCompressor
             $source = self::applyJpegOrientation($source, $absolutePath);
         }
 
-        $newWidth = $width;
-        $newHeight = $height;
+        $sourceWidth = imagesx($source);
+        $sourceHeight = imagesy($source);
 
-        if (max($width, $height) > $maxDimension) {
-            $ratio = $maxDimension / max($width, $height);
-            $newWidth = max(1, (int) round($width * $ratio));
-            $newHeight = max(1, (int) round($height * $ratio));
+        if ($sourceWidth < 1 || $sourceHeight < 1) {
+            imagedestroy($source);
+
+            return;
+        }
+
+        $newWidth = $sourceWidth;
+        $newHeight = $sourceHeight;
+
+        if (max($sourceWidth, $sourceHeight) > $maxDimension) {
+            $ratio = $maxDimension / max($sourceWidth, $sourceHeight);
+            $newWidth = max(1, (int) round($sourceWidth * $ratio));
+            $newHeight = max(1, (int) round($sourceHeight * $ratio));
         }
 
         $target = $source;
 
-        if ($newWidth !== $width || $newHeight !== $height) {
+        if ($newWidth !== $sourceWidth || $newHeight !== $sourceHeight) {
             $target = imagecreatetruecolor($newWidth, $newHeight);
 
             if (! $target) {
@@ -76,7 +85,7 @@ class ImageCompressor
                 imagefilledrectangle($target, 0, 0, $newWidth, $newHeight, $transparent);
             }
 
-            imagecopyresampled($target, $source, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
+            imagecopyresampled($target, $source, 0, 0, 0, 0, $newWidth, $newHeight, $sourceWidth, $sourceHeight);
             imagedestroy($source);
         }
 
@@ -98,12 +107,17 @@ class ImageCompressor
         $exif = @exif_read_data($absolutePath);
         $orientation = is_array($exif) ? ($exif['Orientation'] ?? null) : null;
 
-        return match ($orientation) {
+        $rotated = match ($orientation) {
             3 => imagerotate($image, 180, 0),
             6 => imagerotate($image, -90, 0),
             8 => imagerotate($image, 90, 0),
             default => $image,
         };
+
+        if ($rotated && $rotated !== $image) {
+            imagedestroy($image);
+        }
+
+        return $rotated ?: $image;
     }
 }
-
