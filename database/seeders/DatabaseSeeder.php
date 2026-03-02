@@ -27,9 +27,14 @@ class DatabaseSeeder extends Seeder
             ['email' => 'admin@rumahku.local'],
             [
                 'name' => 'Admin',
+                'username' => 'admin',
                 'password' => Hash::make('password'),
             ],
         );
+
+        if (blank($admin->username)) {
+            $admin->update(['username' => 'admin']);
+        }
 
         $admin->syncRoles('admin');
     }
