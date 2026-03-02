@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
     <head>
         <meta charset="utf-8">
         <title>{{ $title }}</title>
@@ -31,7 +31,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="{{ count($headers) }}">No data available.</td>
+                        <td colspan="{{ count($headers) }}">Tidak ada data.</td>
                     </tr>
                 @endforelse
             </tbody>

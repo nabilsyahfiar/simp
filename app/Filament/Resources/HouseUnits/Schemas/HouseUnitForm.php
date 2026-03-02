@@ -39,7 +39,7 @@ class HouseUnitForm
                     ->maxLength(50)
                     ->disabled(fn ($operation): bool => $operation === 'create')
                     ->dehydrated(fn ($operation): bool => $operation !== 'create')
-                    ->helperText('Auto-generated from project code.')
+                    ->helperText('Dibuat otomatis dari kode proyek.')
                     ->rules([
                         fn ($get, $record) => Rule::unique('house_units', 'unit_code')
                             ->where('project_id', $get('project_id'))
