@@ -17,7 +17,7 @@ class EditRoleAccess extends EditRecord
     public function getHeading(): string
     {
         $role = (string) ($this->record?->name ?? '');
-        $label = RoleAccessConfig::roleLabels()[$role] ?? ucfirst($role);
+        $label = RoleAccessConfig::roleLabels()[$role] ?? $role;
 
         return "Ubah Peran {$label}";
     }

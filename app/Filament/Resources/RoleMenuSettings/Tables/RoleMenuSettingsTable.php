@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\RoleMenuSettings\Tables;
 
+use App\Support\RoleAccessConfig;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Filters\SelectFilter;
@@ -16,7 +17,7 @@ class RoleMenuSettingsTable
                 TextColumn::make('role')
                     ->label('Peran')
                     ->badge()
-                    ->formatStateUsing(fn (string $state): string => ucfirst($state))
+                    ->formatStateUsing(fn (string $state): string => RoleAccessConfig::roleLabels()[$state] ?? $state)
                     ->sortable(),
                 TextColumn::make('menu_label')
                     ->label('Menu')
@@ -29,11 +30,7 @@ class RoleMenuSettingsTable
             ])
             ->filters([
                 SelectFilter::make('role')
-                    ->options([
-                        'staff' => 'Staf',
-                        'foreman' => 'Mandor',
-                        'management' => 'Manajemen',
-                    ])
+                    ->options(RoleAccessConfig::roleLabels())
                     ->native(false),
             ])
             ->defaultSort('role')

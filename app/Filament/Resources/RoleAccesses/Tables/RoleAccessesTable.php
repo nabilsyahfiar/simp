@@ -16,7 +16,7 @@ class RoleAccessesTable
                 TextColumn::make('name')
                     ->label('Peran')
                     ->badge()
-                    ->formatStateUsing(fn (string $state): string => RoleAccessConfig::roleLabels()[$state] ?? ucfirst($state))
+                    ->formatStateUsing(fn (string $state): string => RoleAccessConfig::roleLabels()[$state] ?? $state)
                     ->sortable(),
             ])
             ->recordActions([

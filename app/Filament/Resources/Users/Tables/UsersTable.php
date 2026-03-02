@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Users\Tables;
 
 use App\Exports\UsersExport;
+use App\Support\RoleAccessConfig;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
@@ -10,7 +11,6 @@ use Filament\Actions\EditAction;
 use Filament\Notifications\Notification;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
-use Illuminate\Support\Str;
 use Maatwebsite\Excel\Facades\Excel;
 use Spatie\Permission\Models\Role;
 use Filament\Tables\Table;
@@ -31,7 +31,11 @@ class UsersTable
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('role')
                     ->label('Peran')
-                    ->state(fn ($record) => Str::ucfirst((string) $record->getRoleNames()->first()))
+                    ->state(function ($record): string {
+                        $role = (string) $record->getRoleNames()->first();
+
+                        return RoleAccessConfig::roleLabels()[$role] ?? $role;
+                    })
                     ->badge(),
                 TextColumn::make('is_active')
                     ->label('Status')
@@ -42,7 +46,7 @@ class UsersTable
             ->filters([
                 SelectFilter::make('role')
                     ->options(fn () => Role::pluck('name', 'name')
-                        ->map(fn (string $name) => Str::ucfirst($name))
+                        ->map(fn (string $name) => RoleAccessConfig::roleLabels()[$name] ?? $name)
                         ->all())
                     ->native(false)
                     ->query(function ($query, array $data) {
@@ -102,13 +106,14 @@ class UsersTable
                             $headers = [
                                 'Nama',
                                 'Email',
-                                'Username',
+                                'Nama Pengguna',
                                 'Peran',
                                 'Status',
                             ];
 
                             $rows = $records->map(function ($record): array {
-                                $role = Str::ucfirst((string) $record->getRoleNames()->first());
+                                $roleKey = (string) $record->getRoleNames()->first();
+                                $role = RoleAccessConfig::roleLabels()[$roleKey] ?? $roleKey;
                                 $status = $record->is_active ? 'Aktif' : 'Tidak Aktif';
 
                                 return [
@@ -140,7 +145,6 @@ class UsersTable
             ]);
     }
 }
-
 
 
 

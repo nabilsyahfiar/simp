@@ -2,8 +2,8 @@
 
 namespace App\Exports;
 
+use App\Support\RoleAccessConfig;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Str;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
@@ -24,7 +24,7 @@ class UsersExport implements FromCollection, WithHeadings, WithMapping
         return [
             'Nama',
             'Email',
-            'Username',
+            'Nama Pengguna',
             'Peran',
             'Status',
         ];
@@ -32,7 +32,8 @@ class UsersExport implements FromCollection, WithHeadings, WithMapping
 
     public function map($record): array
     {
-        $role = Str::ucfirst((string) $record->getRoleNames()->first());
+        $roleKey = (string) $record->getRoleNames()->first();
+        $role = RoleAccessConfig::roleLabels()[$roleKey] ?? $roleKey;
         $status = $record->is_active ? 'Aktif' : 'Tidak Aktif';
 
         return [
