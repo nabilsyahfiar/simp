@@ -82,7 +82,7 @@ class RoleAccessConfig
                 ],
             ],
             'management' => [
-                'label' => 'Manajemen',
+                'label' => 'Pimpinan',
                 'menus' => [
                     'projects' => 'Proyek',
                     'house_units' => 'Unit Rumah',
