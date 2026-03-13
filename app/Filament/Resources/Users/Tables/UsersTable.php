@@ -83,65 +83,7 @@ class UsersTable
                     }),
             ])
             ->toolbarActions([
-                ActionGroup::make([
-                    Action::make('export_xlsx')
-                        ->label('Excel (.xlsx)')
-                        ->icon('heroicon-m-table-cells')
-                        ->action(function ($livewire) {
-                            $records = $livewire->getTableQueryForExport()
-                                ->with('roles')
-                                ->get();
-                            $timestamp = now()->format('Ymd-His');
-
-                            return Excel::download(new UsersExport($records), "users-{$timestamp}.xlsx");
-                        }),
-                    Action::make('export_pdf')
-                        ->label('PDF (.pdf)')
-                        ->icon('heroicon-m-document')
-                        ->action(function ($livewire) {
-                            $records = $livewire->getTableQueryForExport()
-                                ->with('roles')
-                                ->get();
-
-                            $headers = [
-                                'Nama',
-                                'Email',
-                                'Nama Pengguna',
-                                'Peran',
-                                'Status',
-                            ];
-
-                            $rows = $records->map(function ($record): array {
-                                $roleKey = (string) $record->getRoleNames()->first();
-                                $role = RoleAccessConfig::roleLabels()[$roleKey] ?? $roleKey;
-                                $status = $record->is_active ? 'Aktif' : 'Tidak Aktif';
-
-                                return [
-                                    $record->name,
-                                    $record->email,
-                                    $record->username,
-                                    $role,
-                                    $status,
-                                ];
-                            })->all();
-
-                            $timestamp = now()->format('Ymd-His');
-
-                            $pdf = Pdf::loadView('exports.table', [
-                                'title' => 'Pengguna',
-                                'headers' => $headers,
-                                'rows' => $rows,
-                            ])->setPaper('a4', 'landscape');
-
-                            return response()->streamDownload(function () use ($pdf): void {
-                                echo $pdf->output();
-                            }, "users-{$timestamp}.pdf");
-                        }),
-                ])
-                    ->label('Ekspor')
-                    ->icon('heroicon-o-arrow-down-tray')
-                    ->color('gray')
-                    ->button(),
+                \App\Filament\Actions\UserModalExport::make(),
             ]);
     }
 }
