@@ -27,9 +27,13 @@ class StaffPanelProvider extends PanelProvider
             ->id('staff')
             ->path('staff')
             ->colors([
-                'primary' => Color::Amber,
+                'primary' => Color::Indigo,
+                'gray' => Color::Slate,
             ])
-            ->brandName('Sistem Monitoring Progres Perumahan')
+            ->font('Poppins')
+            ->sidebarCollapsibleOnDesktop()
+            ->maxContentWidth('full')
+            ->brandName('SIMPRO')
             ->discoverResources(in: app_path('Filament/Staff/Resources'), for: 'App\Filament\Staff\Resources')
             ->discoverPages(in: app_path('Filament/Staff/Pages'), for: 'App\Filament\Staff\Pages')
             ->pages([

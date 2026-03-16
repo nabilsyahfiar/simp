@@ -29,9 +29,13 @@ class ForemanPanelProvider extends PanelProvider
             ->id('foreman')
             ->path('foreman')
             ->colors([
-                'primary' => Color::Amber,
+                'primary' => Color::Indigo,
+                'gray' => Color::Slate,
             ])
-            ->brandName('Sistem Monitoring Progres Perumahan')
+            ->font('Poppins')
+            ->sidebarCollapsibleOnDesktop()
+            ->maxContentWidth('full')
+            ->brandName('SIMPRO')
             ->discoverResources(in: app_path('Filament/Foreman/Resources'), for: 'App\Filament\Foreman\Resources')
             ->discoverPages(in: app_path('Filament/Foreman/Pages'), for: 'App\Filament\Foreman\Pages')
             ->pages([
