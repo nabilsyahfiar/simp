@@ -75,7 +75,7 @@ class StatusAuditLogsTable
                     ->native(false),
             ])
             ->recordActions([
-                ViewAction::make()->color('info'),
+                ViewAction::make()->color('primary'),
             ])
             ->toolbarActions([
                 \App\Filament\Actions\StatusAuditLogModalExport::make(),

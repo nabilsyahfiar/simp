@@ -36,7 +36,14 @@ class UsersTable
 
                         return RoleAccessConfig::roleLabels()[$role] ?? $role;
                     })
-                    ->badge(),
+                    ->badge()
+                    ->color(fn ($record): string => match ((string) $record->getRoleNames()->first()) {
+                        'admin' => 'danger',
+                        'management' => 'success',
+                        'staff' => 'info',
+                        'foreman' => 'warning',
+                        default => 'gray',
+                    }),
                 TextColumn::make('is_active')
                     ->label('Status')
                     ->state(fn ($record) => $record->is_active ? 'Aktif' : 'Tidak Aktif')
@@ -67,7 +74,7 @@ class UsersTable
                     ->native(false),
             ])
             ->recordActions([
-                EditAction::make(),
+                EditAction::make()->color('warning'),
                 Action::make('toggle_active')
                     ->label(fn ($record) => $record->is_active ? 'Nonaktifkan' : 'Aktifkan')
                     ->icon(fn ($record) => $record->is_active ? 'heroicon-m-lock-closed' : 'heroicon-m-lock-open')

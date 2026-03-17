@@ -45,6 +45,12 @@ class HouseUnitsTable
 
                         return 'Dalam Proses';
                     })
+                    ->color(function ($record): string {
+                        $p = $record->official_progress_percent ?? 0;
+                        if ($p <= 0) return 'danger';
+                        if ($p >= 100) return 'success';
+                        return 'warning';
+                    })
                     ->sortable(),
                 TextColumn::make('official_progress_percent')
                     ->label('Progres')

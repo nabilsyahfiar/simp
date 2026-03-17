@@ -20,7 +20,7 @@ class RoleAccessesTable
                     ->sortable(),
             ])
             ->recordActions([
-                EditAction::make()->label('Kelola Akses')->icon('heroicon-m-cog-6-tooth')->color('info'),
+                EditAction::make()->color('warning')->label('Kelola Akses')->icon('heroicon-m-cog-6-tooth')->color('info'),
             ])
             ->defaultSort('name')
             ->paginated(false);

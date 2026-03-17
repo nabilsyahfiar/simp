@@ -29,6 +29,7 @@ class ProjectsTable
                 TextColumn::make('status')
                     ->badge()
                     ->formatStateUsing(fn (?string $state): string => $state === 'inactive' ? 'Tidak Aktif' : 'Aktif')
+                    ->color(fn (?string $state): string => strtolower($state) === 'inactive' ? 'danger' : 'success')
                     ->sortable(),
                 TextColumn::make('house_units_avg_official_progress_percent')
                     ->label('Progres')
@@ -52,7 +53,7 @@ class ProjectsTable
                     ->native(false),
             ])
             ->recordActions([
-                ViewAction::make()->color('info'),
+                ViewAction::make()->color('primary'),
             ])
             ->toolbarActions([
                 \App\Filament\Actions\ProjectModalExport::make(),

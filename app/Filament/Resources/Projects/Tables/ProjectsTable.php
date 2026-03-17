@@ -35,6 +35,7 @@ class ProjectsTable
                 TextColumn::make('status')
                     ->badge()
                     ->formatStateUsing(fn (?string $state): string => $state === 'inactive' ? 'Tidak Aktif' : 'Aktif')
+                    ->color(fn (?string $state): string => strtolower($state) === 'inactive' ? 'danger' : 'success')
                     ->sortable(),
                 TextColumn::make('house_units_avg_official_progress_percent')
                     ->label('Progres')
@@ -58,9 +59,8 @@ class ProjectsTable
                     ->native(false),
             ])
             ->recordActions([
-                ViewAction::make()
-                    ->color('info'),
-                EditAction::make(),
+                ViewAction::make()->color('primary'),
+                EditAction::make()->color('warning'),
                 DeleteAction::make()
                     ->before(function (Project $record, DeleteAction $action): void {
                         if ($record->houseUnits()->exists()) {
