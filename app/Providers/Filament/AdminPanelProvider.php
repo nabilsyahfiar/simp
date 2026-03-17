@@ -34,7 +34,8 @@ class AdminPanelProvider extends PanelProvider
             ->font('Poppins')
             ->sidebarCollapsibleOnDesktop()
             ->maxContentWidth('full')
-            ->brandName('SIMPRO')
+            ->brandName('Sistem Monitoring Progres Perumahan')
+            ->brandLogo(fn () => view('filament.logo'))
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
             ->pages([

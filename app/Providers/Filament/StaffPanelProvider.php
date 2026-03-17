@@ -33,7 +33,8 @@ class StaffPanelProvider extends PanelProvider
             ->font('Poppins')
             ->sidebarCollapsibleOnDesktop()
             ->maxContentWidth('full')
-            ->brandName('SIMPRO')
+            ->brandName('Sistem Monitoring Progres Perumahan')
+            ->brandLogo(fn () => view('filament.logo'))
             ->discoverResources(in: app_path('Filament/Staff/Resources'), for: 'App\Filament\Staff\Resources')
             ->discoverPages(in: app_path('Filament/Staff/Pages'), for: 'App\Filament\Staff\Pages')
             ->pages([

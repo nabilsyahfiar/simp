@@ -35,7 +35,8 @@ class ForemanPanelProvider extends PanelProvider
             ->font('Poppins')
             ->sidebarCollapsibleOnDesktop()
             ->maxContentWidth('full')
-            ->brandName('SIMPRO')
+            ->brandName('Sistem Monitoring Progres Perumahan')
+            ->brandLogo(fn () => view('filament.logo'))
             ->discoverResources(in: app_path('Filament/Foreman/Resources'), for: 'App\Filament\Foreman\Resources')
             ->discoverPages(in: app_path('Filament/Foreman/Pages'), for: 'App\Filament\Foreman\Pages')
             ->pages([
