@@ -83,7 +83,7 @@ class ProgressReportsTable
                     ->native(false),
             ])
             ->recordActions([
-                ViewAction::make()->color('info'),
+                ViewAction::make()->color('primary'),
             ])
             ->toolbarActions([
                 \App\Filament\Actions\ProgressReportModalExport::make(),

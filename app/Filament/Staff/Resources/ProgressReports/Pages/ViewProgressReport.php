@@ -43,7 +43,7 @@ class ViewProgressReport extends ViewRecord
                     if (! $isVerified) {
                         $record->refresh()->loadMissing('verifiedBy');
                         $verifiedBy = $record->verifiedBy?->name ?? 'staf lain';
-                        $verifiedAt = $record->verified_at?->timezone('Asia/Jakarta')->format('d M Y H:i') ?? '-';
+                        $verifiedAt = $record->verified_at?->format('d M Y H:i') ?? '-';
 
                         Notification::make()
                             ->title('Laporan sudah diverifikasi')

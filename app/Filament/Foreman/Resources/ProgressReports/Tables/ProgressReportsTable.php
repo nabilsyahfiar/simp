@@ -59,9 +59,8 @@ class ProgressReportsTable
                     ->native(false),
             ])
             ->recordActions([
-                ViewAction::make()
-                    ->color('info'),
-                EditAction::make()
+                ViewAction::make()->color('primary'),
+                EditAction::make()->color('warning')
                     ->visible(fn ($record): bool => $record->status === 'pending'),
             ])
             ->defaultSort('report_date', 'desc');

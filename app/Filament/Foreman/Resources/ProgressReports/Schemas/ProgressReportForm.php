@@ -87,7 +87,7 @@ class ProgressReportForm
                             DateTimePicker::make('report_date')
                                 ->label('Tanggal Laporan')
                                 ->default(now('Asia/Jakarta'))
-                                ->timezone('Asia/Jakarta')
+                                
                                 ->disabled()
                                 ->dehydrated()
                                 ->native(false)
