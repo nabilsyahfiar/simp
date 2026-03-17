@@ -66,7 +66,7 @@ class ProgressReportForm
                             ->placeholder('-'),
                         DateTimePicker::make('verified_at')
                             ->label('Tanggal Verifikasi')
-                            ->timezone('Asia/Jakarta')
+                            
                             ->displayFormat('d M Y H:i')
                             ->native(false),
                         TextInput::make('reported_percent')
@@ -82,7 +82,7 @@ class ProgressReportForm
                             ->collapsible(),
                         DateTimePicker::make('report_date')
                             ->label('Tanggal Laporan')
-                            ->timezone('Asia/Jakarta')
+                            
                             ->displayFormat('d M Y H:i')
                             ->native(false),
                         Textarea::make('description')
