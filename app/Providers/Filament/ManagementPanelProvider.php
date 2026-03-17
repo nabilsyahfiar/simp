@@ -31,9 +31,14 @@ class ManagementPanelProvider extends PanelProvider
             ->id('management')
             ->path('management')
             ->colors([
-                'primary' => Color::Amber,
+                'primary' => Color::Indigo,
+                'gray' => Color::Slate,
             ])
+            ->font('Poppins')
+            ->sidebarCollapsibleOnDesktop()
+            ->maxContentWidth('full')
             ->brandName('Sistem Monitoring Progres Perumahan')
+            ->brandLogo(fn () => view('filament.logo'))
             ->discoverResources(in: app_path('Filament/Management/Resources'), for: 'App\Filament\Management\Resources')
             ->discoverPages(in: app_path('Filament/Management/Pages'), for: 'App\Filament\Management\Pages')
             ->pages([

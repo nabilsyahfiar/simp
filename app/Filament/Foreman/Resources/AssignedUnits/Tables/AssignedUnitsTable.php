@@ -24,6 +24,12 @@ class AssignedUnitsTable
                 TextColumn::make('official_status')
                     ->label('Status')
                     ->badge()
+                    ->color(function ($record): string {
+                        $p = $record->official_progress_percent ?? 0;
+                        if ($p <= 0) return 'danger';
+                        if ($p >= 100) return 'success';
+                        return 'warning';
+                    })
                     ->state(function ($record): string {
                         $percent = $record->official_progress_percent ?? 0;
 

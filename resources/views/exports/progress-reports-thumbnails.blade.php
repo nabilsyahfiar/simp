@@ -5,13 +5,15 @@
         <title>{{ $title }}</title>
         <style>
             * { font-family: DejaVu Sans, sans-serif; }
-            body { font-size: 11px; color: #111827; }
-            h1 { font-size: 16px; margin-bottom: 12px; }
+            body { font-size: 10px; color: #374151; margin: 0; padding: 10px; }
+            h1 { font-size: 16px; margin-bottom: 15px; color: #111827; text-align: center; text-transform: uppercase; border-bottom: 1px solid #e5e7eb; padding-bottom: 8px; }
             table { width: 100%; border-collapse: collapse; }
-            th, td { border: 1px solid #e5e7eb; padding: 6px 8px; text-align: left; vertical-align: top; }
-            th { background: #f9fafb; font-weight: 600; }
-            .thumb { width: 84px; height: 84px; object-fit: cover; border: 1px solid #d1d5db; border-radius: 4px; display: block; }
-            .thumb-empty { color: #6b7280; font-size: 10px; }
+            th, td { border: 1px solid #e5e7eb; padding: 6px; text-align: left; vertical-align: middle; }
+            th { background-color: #1e293b; color: #ffffff; font-weight: bold; font-size: 9px; text-transform: uppercase; }
+            tbody tr:nth-child(even) { background-color: #f8fafc; }
+            .thumb { width: 64px; height: 64px; object-fit: cover; border: 1px solid #e5e7eb; border-radius: 4px; display: block; margin: 0 auto; }
+            .thumb-empty { color: #9ca3af; font-size: 9px; font-style: italic; text-align: center; display: block; }
+            .center-align { text-align: center; vertical-align: middle; }
         </style>
     </head>
     <body>
@@ -39,9 +41,9 @@
                         <td>{{ $row['foreman'] }}</td>
                         <td>{{ $row['progress'] }}</td>
                         <td>{{ $row['status'] }}</td>
-                        <td>{{ $row['photos_count'] }}</td>
-                        <td>{{ $row['has_photo'] }}</td>
-                        <td>
+                        <td class="center-align">{{ $row['photos_count'] }}</td>
+                        <td class="center-align">{{ $row['has_photo'] }}</td>
+                        <td class="center-align">
                             @if ($row['thumbnail_data_uri'])
                                 <img src="{{ $row['thumbnail_data_uri'] }}" alt="thumbnail" class="thumb">
                             @else

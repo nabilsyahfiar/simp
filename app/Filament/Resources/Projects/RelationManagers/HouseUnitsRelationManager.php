@@ -112,7 +112,7 @@ class HouseUnitsRelationManager extends RelationManager
                     }),
             ])
             ->recordActions([
-                EditAction::make()
+                EditAction::make()->color('warning')
                     ->before(function (EditAction $action) use (&$previousForemanId): void {
                         $previousForemanId = $action->getRecord()?->assigned_foreman_id;
                     })

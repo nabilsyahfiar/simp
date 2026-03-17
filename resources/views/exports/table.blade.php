@@ -5,11 +5,12 @@
         <title>{{ $title }}</title>
         <style>
             * { font-family: DejaVu Sans, sans-serif; }
-            body { font-size: 12px; color: #111827; }
-            h1 { font-size: 16px; margin-bottom: 12px; }
+            body { font-size: 11px; color: #374151; margin: 0; padding: 10px; }
+            h1 { font-size: 16px; margin-bottom: 15px; color: #111827; text-align: center; text-transform: uppercase; border-bottom: 1px solid #e5e7eb; padding-bottom: 8px; }
             table { width: 100%; border-collapse: collapse; }
-            th, td { border: 1px solid #e5e7eb; padding: 6px 8px; text-align: left; vertical-align: top; }
-            th { background: #f9fafb; font-weight: 600; }
+            th, td { border: 1px solid #e5e7eb; padding: 8px; text-align: left; vertical-align: top; }
+            th { background-color: #1e293b; color: #ffffff; font-weight: bold; font-size: 10px; text-transform: uppercase; }
+            tbody tr:nth-child(even) { background-color: #f8fafc; }
         </style>
     </head>
     <body>

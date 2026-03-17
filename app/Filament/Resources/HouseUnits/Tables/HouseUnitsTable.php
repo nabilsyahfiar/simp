@@ -46,6 +46,12 @@ class HouseUnitsTable
 
                         return 'Dalam Proses';
                     })
+                    ->color(function ($record): string {
+                        $p = $record->official_progress_percent ?? 0;
+                        if ($p <= 0) return 'danger';
+                        if ($p >= 100) return 'success';
+                        return 'warning';
+                    })
                     ->sortable(),
                 TextColumn::make('official_progress_percent')
                     ->label('Progres')
@@ -71,74 +77,10 @@ class HouseUnitsTable
                     ->native(false),
             ])
             ->recordActions([
-                EditAction::make(),
+                EditAction::make()->color('warning'),
             ])
             ->toolbarActions([
-                ActionGroup::make([
-                    Action::make('export_xlsx')
-                        ->label('Excel (.xlsx)')
-                        ->icon('heroicon-m-table-cells')
-                        ->action(function ($livewire) {
-                            $records = $livewire->getTableQueryForExport()
-                                ->with(['project', 'assignedForeman'])
-                                ->get();
-                            $timestamp = now()->format('Ymd-His');
-
-                            return Excel::download(new HouseUnitsExport($records), "house-units-{$timestamp}.xlsx");
-                        }),
-                    Action::make('export_pdf')
-                        ->label('PDF (.pdf)')
-                        ->icon('heroicon-m-document')
-                        ->action(function ($livewire) {
-                            $records = $livewire->getTableQueryForExport()
-                                ->with(['project', 'assignedForeman'])
-                                ->get();
-
-                            $headers = [
-                                'Unit',
-                                'Proyek',
-                                'Mandor',
-                                'Status',
-                                'Progres',
-                            ];
-
-                            $rows = $records->map(function ($record): array {
-                                $percent = $record->official_progress_percent ?? 0;
-
-                                if ($percent <= 0) {
-                                    $status = 'Belum Mulai';
-                                } elseif ($percent >= 100) {
-                                    $status = 'Selesai';
-                                } else {
-                                    $status = 'Dalam Proses';
-                                }
-
-                                return [
-                                    $record->unit_code,
-                                    $record->project?->name,
-                                    $record->assignedForeman?->name,
-                                    $status,
-                                    ($percent ?? 0) . '%',
-                                ];
-                            })->all();
-
-                            $timestamp = now()->format('Ymd-His');
-
-                            $pdf = Pdf::loadView('exports.table', [
-                                'title' => 'Unit Rumah',
-                                'headers' => $headers,
-                                'rows' => $rows,
-                            ])->setPaper('a4', 'landscape');
-
-                            return response()->streamDownload(function () use ($pdf): void {
-                                echo $pdf->output();
-                            }, "house-units-{$timestamp}.pdf");
-                        }),
-                ])
-                    ->label('Ekspor')
-                    ->icon('heroicon-o-arrow-down-tray')
-                    ->color('gray')
-                    ->button(),
+                \App\Filament\Actions\HouseUnitModalExport::make(),
             ]);
     }
 }
